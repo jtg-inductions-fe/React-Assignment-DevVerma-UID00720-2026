@@ -6,12 +6,12 @@ import NotFoundPage from '@pages/NotFoundPage/NotFoundPage';
 import ProfilePage from '@pages/ProfilePage/ProfilePage';
 
 const AppRoutes = () => (
-        <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/profile" element={<ProfilePage />} />
-            <Route path="*" element={<NotFoundPage />} />
-        </Routes>
-    );
+    <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/profile" element={<ProfilePage />} />
+        <Route path="*" element={<NotFoundPage />} />
+    </Routes>
+);
 
 export default AppRoutes;
