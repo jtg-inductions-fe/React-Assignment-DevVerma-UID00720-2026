@@ -3,9 +3,11 @@
  * @constant
  */
 export const COLORS = {
-    PRIMARY: {
-        MAIN: '#0E9F6E',
-    },
+    PRIMARY: '#0E9F6E',
+    SECONDARY: '#344054',
+    ERROR: '#DC2626',
+    BACKGROUND: '#F9FAFB',
+    WHITE: '#FFFFFF',
 };
 
 /**
