@@ -7,29 +7,31 @@ interface SearchBarProps {
 }
 
 const SearchBar = ({ value, onChange }: SearchBarProps) => (
-        <TextField
-            fullWidth
-            value={value}
-            onChange={(event) => onChange(event.target.value)}
-            placeholder="Search GitHub users..."
-            aria-label="Search GitHub users"
-            slotProps={{
-                input: {
-                    startAdornment: (
-                        <InputAdornment position="start">
-                            <SearchIcon color="action" />
-                        </InputAdornment>
-                    ),
-                },
-            }}
-            sx={{
-                maxWidth: 600,
-                '& .MuiOutlinedInput-root': {
-                    borderRadius: 3,
-                    backgroundColor: 'background.paper',
-                },
-            }}
-        />
-    );
+    <TextField
+        fullWidth
+        value={value}
+        onChange={(event) => onChange(event.target.value)}
+        placeholder="Search GitHub users..."
+        slotProps={{
+            htmlInput: {
+                'aria-label': 'Search GitHub users',
+            },
+            input: {
+                startAdornment: (
+                    <InputAdornment position="start">
+                        <SearchIcon color="action" />
+                    </InputAdornment>
+                ),
+            },
+        }}
+        sx={{
+            maxWidth: 600,
+            '& .MuiOutlinedInput-root': {
+                borderRadius: 3,
+                backgroundColor: 'background.paper',
+            },
+        }}
+    />
+);
 
 export default SearchBar;
