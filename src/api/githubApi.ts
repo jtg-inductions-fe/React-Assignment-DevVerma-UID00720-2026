@@ -21,14 +21,27 @@ export interface GitHubSearchResponse {
     items: GitHubUser[];
 }
 
+interface GitHubApiRequestOptions {
+    signal?: AbortSignal;
+    token?: string;
+}
+
 async function requestGitHubApi<T>(
     endpoint: string,
-    signal?: AbortSignal,
+    options: GitHubApiRequestOptions = {},
 ): Promise<T> {
+    const { signal, token } = options;
+
+    const headers: HeadersInit = {
+        Accept: 'application/vnd.github+json',
+    };
+
+    if (token) {
+        headers.Authorization = `Bearer ${token}`;
+    }
+
     const response = await fetch(`https://api.github.com${endpoint}`, {
-        headers: {
-            Accept: 'application/vnd.github+json',
-        },
+        headers,
         signal,
     });
 
@@ -42,6 +55,10 @@ async function requestGitHubApi<T>(
             typeof data.message === 'string'
                 ? data.message
                 : 'Unable to fetch data from GitHub.';
+
+        if (response.status === 401) {
+            throw new Error('Invalid or expired GitHub personal access token.');
+        }
 
         if (response.status === 403) {
             throw new Error(
@@ -71,6 +88,16 @@ export function searchGitHubUsers(
 
     return requestGitHubApi<GitHubSearchResponse>(
         `/search/users?${params.toString()}`,
-        signal,
+        { signal },
     );
+}
+
+export function getAuthenticatedGitHubUser(
+    token: string,
+    signal?: AbortSignal,
+): Promise<GitHubUser> {
+    return requestGitHubApi<GitHubUser>('/user', {
+        token,
+        signal,
+    });
 }

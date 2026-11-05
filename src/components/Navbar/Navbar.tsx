@@ -16,19 +16,19 @@ import {
     Typography,
 } from '@mui/material';
 
-const USER_INFO_STORAGE_KEY = 'githubUser';
-const USER_TOKEN_STORAGE_KEY = 'githubToken';
+import { logoutUser } from '@store/auth/authSlice';
+import { useAppDispatch, useAppSelector } from '@store/hooks';
 
 const settings = ['Profile', 'Logout'];
 
 const Navbar = () => {
     const navigate = useNavigate();
+    const dispatch = useAppDispatch();
+
+    const user = useAppSelector((state) => state.auth.user);
+    const isLoggedIn = Boolean(user);
 
     const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
-
-    const [isLoggedIn, setIsLoggedIn] = useState(() =>
-        Boolean(localStorage.getItem(USER_INFO_STORAGE_KEY)),
-    );
 
     const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorElUser(event.currentTarget);
@@ -38,12 +38,9 @@ const Navbar = () => {
         setAnchorElUser(null);
     };
 
-    const handleLogout = () => {
-        localStorage.removeItem(USER_INFO_STORAGE_KEY);
-        localStorage.removeItem(USER_TOKEN_STORAGE_KEY);
-
-        setIsLoggedIn(false);
+    const handleLogout = async () => {
         handleCloseUserMenu();
+        await dispatch(logoutUser());
         void navigate('/');
     };
 
@@ -53,7 +50,7 @@ const Navbar = () => {
         if (setting === 'Profile') {
             void navigate('/profile');
         } else if (setting === 'Logout') {
-            handleLogout();
+            void handleLogout();
         }
     };
 
@@ -100,7 +97,10 @@ const Navbar = () => {
                                     sx={{ p: 0 }}
                                     aria-label="Open profile menu"
                                 >
-                                    <Avatar alt="Profile" />
+                                    <Avatar
+                                        src={user?.avatar_url}
+                                        alt={user?.login ?? 'Profile'}
+                                    />
                                 </IconButton>
                             </Tooltip>
 

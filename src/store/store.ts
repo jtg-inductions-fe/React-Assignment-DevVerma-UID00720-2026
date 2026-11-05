@@ -1,10 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit';
 
+import authReducer from './auth/authSlice';
 import githubSearchReducer from './githubSearch/githubSearchSlice';
 
 export const store = configureStore({
     reducer: {
         githubSearch: githubSearchReducer,
+        auth: authReducer,
     },
 });
 
