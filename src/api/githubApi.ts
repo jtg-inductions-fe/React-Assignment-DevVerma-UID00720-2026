@@ -6,6 +6,7 @@ export interface GitHubUser {
     type: string;
 
     name?: string | null;
+    company?: string | null;
     location?: string | null;
     followers?: number;
     following?: number;
@@ -13,6 +14,8 @@ export interface GitHubUser {
     blog?: string | null;
     email?: string | null;
     public_repos?: number;
+    public_gists?: number;
+    created_at?: string;
 }
 
 export interface GitHubSearchResponse {
