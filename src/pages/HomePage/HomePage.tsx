@@ -30,8 +30,8 @@ const HomePage = () => {
     useEffect(() => {
         const query = searchValue.trim();
 
+        dispatch(clearSearchResults());
         if (!query) {
-            dispatch(clearSearchResults());
             return;
         }
 
