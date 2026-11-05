@@ -81,6 +81,7 @@ const UserInfo = ({ user }: UserInfoProps) => (
                 href={user.html_url}
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label={`View ${user.login}'s GitHub profile`}
                 sx={{
                     borderRadius: 2,
                     textTransform: 'none',

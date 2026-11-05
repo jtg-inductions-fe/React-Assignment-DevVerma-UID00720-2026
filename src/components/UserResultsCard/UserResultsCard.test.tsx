@@ -62,7 +62,7 @@ describe('UserResultsCard', () => {
         render(<UserResultsCard users={mockUsers} hasSearched={true} />);
 
         const profileLinks = screen.getAllByRole('link', {
-            name: 'View Profile',
+            name: /View .*'s GitHub profile/,
         });
 
         expect(profileLinks).toHaveLength(3);

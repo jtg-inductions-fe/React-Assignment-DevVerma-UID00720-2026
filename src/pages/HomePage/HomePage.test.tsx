@@ -162,7 +162,7 @@ describe('HomePage integration', () => {
 
         expect(
             screen.getByRole('link', {
-                name: 'View Profile',
+                name: `View ${mockResults.items[0].login}'s GitHub profile`,
             }),
         ).toHaveAttribute('href', 'https://github.com/react-user');
     });

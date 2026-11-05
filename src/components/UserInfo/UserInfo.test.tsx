@@ -38,7 +38,7 @@ describe('UserInfo', () => {
         render(<UserInfo user={mockUser} />);
 
         const profileLink = screen.getByRole('link', {
-            name: 'View Profile',
+            name: `View ${mockUser.login}'s GitHub profile`,
         });
 
         expect(profileLink).toHaveAttribute(
