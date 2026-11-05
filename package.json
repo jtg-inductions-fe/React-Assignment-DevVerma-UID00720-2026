@@ -1,5 +1,8 @@
 {
     "name": "react-mui-base-template",
+    "resolutions": {
+        "vite": "6.0.11"
+    },
     "description": "",
     "private": true,
     "version": "0.0.0",
@@ -12,7 +15,9 @@
         "lint:fix": "eslint --fix .",
         "preview": "vite preview",
         "prettier": "npx prettier --write ./",
-        "postinstall": "husky install"
+        "postinstall": "husky install",
+        "test": "vitest",
+        "test:run": "vitest run"
     },
     "dependencies": {
         "@emotion/react": "11.14.0",
@@ -26,7 +31,12 @@
         "react-router-dom": "^7.18.5"
     },
     "devDependencies": {
+        "@testing-library/dom": "^10.4.2",
+        "@testing-library/jest-dom": "^7.0.1",
+        "@testing-library/react": "^16.3.3",
+        "@testing-library/user-event": "^14.6.8",
         "@types/eslint-plugin-jsx-a11y": "6",
+        "@types/jsdom": "^30",
         "@types/node": "22.10.7",
         "@types/react": "19.0.7",
         "@types/react-dom": "19.0.3",
@@ -40,6 +50,7 @@
         "eslint-plugin-simple-import-sort": "12.1.1",
         "globals": "15.14.0",
         "husky": "9.1.7",
+        "jsdom": "^30.1.3",
         "lint-staged": "15.4.1",
         "prettier": "3.4.2",
         "sharp": "0.33.5",
@@ -48,7 +59,25 @@
         "typescript-eslint": "8.21.0",
         "vite": "6.0.11",
         "vite-plugin-image-optimizer": "1.1.8",
-        "vite-tsconfig-paths": "5.1.4"
+        "vite-tsconfig-paths": "5.1.4",
+        "vitest": "3.2.7"
+    },
+    "dependenciesMeta": {
+        "esbuild": {
+            "built": true
+        },
+        "sharp": {
+            "built": true
+        }
+    },
+    "lint-staged": {
+        "*.{js,jsx,ts,tsx}": [
+            "eslint --fix",
+            "prettier --write"
+        ],
+        "*.{json,css,scss,md,yml,yaml,html}": [
+            "prettier --write"
+        ]
     },
     "dependenciesMeta": {
         "esbuild": {

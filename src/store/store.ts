@@ -1,7 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
 
+import githubSearchReducer from './githubSearch/githubSearchSlice';
+
 export const store = configureStore({
-    reducer: {},
+    reducer: {
+        githubSearch: githubSearchReducer,
+    },
 });
 
 export type RootState = ReturnType<typeof store.getState>;
