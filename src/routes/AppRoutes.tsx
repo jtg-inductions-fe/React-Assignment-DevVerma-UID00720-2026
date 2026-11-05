@@ -1,5 +1,6 @@
 import { Route, Routes } from 'react-router-dom';
 
+import ProtectedRoute from '@components/ProtectedRoute/ProtectedRoute';
 import HomePage from '@pages/HomePage/HomePage';
 import LoginPage from '@pages/LoginPage/LoginPage';
 import NotFoundPage from '@pages/NotFoundPage/NotFoundPage';
@@ -9,7 +10,14 @@ const AppRoutes = () => (
     <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/profile" element={<ProfilePage />} />
+        <Route
+            path="/profile"
+            element={
+                <ProtectedRoute>
+                    <ProfilePage />
+                </ProtectedRoute>
+            }
+        />
         <Route path="*" element={<NotFoundPage />} />
     </Routes>
 );
