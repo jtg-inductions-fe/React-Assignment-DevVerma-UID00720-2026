@@ -10,6 +10,7 @@ import {
 } from '@mui/material';
 
 import SearchBar from '@components/SearchBar/SearchBar';
+import UserResultsCard from '@components/UserResultsCard/UserResultsCard';
 import {
     clearSearchError,
     clearSearchResults,
@@ -121,6 +122,11 @@ const HomePage = () => {
                     Found {results.total_count.toLocaleString()} matching users.
                 </Typography>
             )}
+
+            <UserResultsCard
+                users={results?.items ?? []}
+                hasSearched={status === 'succeeded' && hasQuery}
+            />
 
             <Snackbar
                 open={Boolean(error)}

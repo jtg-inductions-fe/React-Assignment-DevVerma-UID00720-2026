@@ -141,4 +141,56 @@ describe('HomePage integration', () => {
 
         expect(mockedSearchGitHubUsersApi).not.toHaveBeenCalled();
     });
+
+    it('displays the returned GitHub users after a successful search', async () => {
+        mockedSearchGitHubUsersApi.mockResolvedValue(mockResults);
+
+        renderHomePage();
+
+        fireEvent.change(
+            screen.getByRole('textbox', {
+                name: 'Search GitHub users',
+            }),
+            { target: { value: 'react' } },
+        );
+
+        await act(async () => {
+            await vi.advanceTimersByTimeAsync(400);
+        });
+
+        expect(screen.getByText('react-user')).toBeInTheDocument();
+
+        expect(
+            screen.getByRole('link', {
+                name: 'View Profile',
+            }),
+        ).toHaveAttribute('href', 'https://github.com/react-user');
+    });
+
+    it('displays the no users found message when the API returns an empty result', async () => {
+        mockedSearchGitHubUsersApi.mockResolvedValue({
+            total_count: 0,
+            incomplete_results: false,
+            items: [],
+        });
+
+        renderHomePage();
+
+        fireEvent.change(
+            screen.getByRole('textbox', {
+                name: 'Search GitHub users',
+            }),
+            { target: { value: 'nonexistent-user' } },
+        );
+
+        await act(async () => {
+            await vi.advanceTimersByTimeAsync(400);
+        });
+
+        expect(
+            screen.getByText(
+                'No users found. Try searching with another username.',
+            ),
+        ).toBeInTheDocument();
+    });
 });
