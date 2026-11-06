@@ -1,8 +1,8 @@
-import { Link as RouterLink } from 'react-router-dom';
-
 import { Box, Button, Container, Typography } from '@mui/material';
 
-const NotFoundPage = () => (
+import { Link as RouterLink } from 'react-router-dom';
+
+export const NotFoundPage = () => (
     <Container
         maxWidth="md"
         sx={{
@@ -42,5 +42,3 @@ const NotFoundPage = () => (
         </Box>
     </Container>
 );
-
-export default NotFoundPage;

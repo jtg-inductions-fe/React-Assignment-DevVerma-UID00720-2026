@@ -1,6 +1,6 @@
 import { Container, Typography } from '@mui/material';
 
-const LoginPage = () => (
+export const LoginPage = () => (
     <Container className="login-page">
         <section className="login-page__content">
             <Typography
@@ -14,5 +14,3 @@ const LoginPage = () => (
         </section>
     </Container>
 );
-
-export default LoginPage;

@@ -1,6 +1,6 @@
 import { Container, Typography } from '@mui/material';
 
-const ProfilePage = () => (
+export const ProfilePage = () => (
     <Container className="profile-page">
         <section className="profile-page__content">
             <Typography
@@ -13,5 +13,3 @@ const ProfilePage = () => (
         </section>
     </Container>
 );
-
-export default ProfilePage;

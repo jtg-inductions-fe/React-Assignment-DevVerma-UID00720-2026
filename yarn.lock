@@ -2874,6 +2874,50 @@ __metadata:
   languageName: node
   linkType: hard
 
+"github-finder@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "github-finder@workspace:."
+  dependencies:
+    "@emotion/react": "npm:11.14.0"
+    "@emotion/styled": "npm:11.14.0"
+    "@mui/icons-material": "npm:6.4.1"
+    "@mui/material": "npm:6.4.1"
+    "@reduxjs/toolkit": "npm:^2.13.0"
+    "@types/eslint-plugin-jsx-a11y": "npm:6"
+    "@types/node": "npm:22.10.7"
+    "@types/react": "npm:19.0.7"
+    "@types/react-dom": "npm:19.0.3"
+    "@vitejs/plugin-react": "npm:4.3.4"
+    eslint: "npm:9.18.0"
+    eslint-config-prettier: "npm:10.0.1"
+    eslint-plugin-jsx-a11y: "npm:6.10.2"
+    eslint-plugin-react: "npm:7.37.4"
+    eslint-plugin-react-hooks: "npm:5.1.0"
+    eslint-plugin-react-refresh: "npm:0.4.18"
+    eslint-plugin-simple-import-sort: "npm:12.1.1"
+    globals: "npm:15.14.0"
+    husky: "npm:9.1.7"
+    lint-staged: "npm:15.4.1"
+    prettier: "npm:3.4.2"
+    react: "npm:19.0.0"
+    react-dom: "npm:19.0.0"
+    react-redux: "npm:^9.3.1"
+    react-router-dom: "npm:^7.18.5"
+    sharp: "npm:0.33.5"
+    terser: "npm:5.37.0"
+    typescript: "npm:5.7.3"
+    typescript-eslint: "npm:8.21.0"
+    vite: "npm:6.0.11"
+    vite-plugin-image-optimizer: "npm:1.1.8"
+    vite-tsconfig-paths: "npm:5.1.4"
+  dependenciesMeta:
+    esbuild:
+      built: true
+    sharp:
+      built: true
+  languageName: unknown
+  linkType: soft
+
 "glob-parent@npm:^5.1.2":
   version: 5.1.2
   resolution: "glob-parent@npm:5.1.2"
@@ -4042,50 +4086,6 @@ __metadata:
   checksum: 10c0/d1be8e8500cf04f76df71942a21ef3a71266397a383d7ec8885f35190df818d35c65efd35aed7be47a89ad99aaff2c52e0c4e39e8930844a6b997622e50625a8
   languageName: node
   linkType: hard
-
-"react-mui-base-template@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "react-mui-base-template@workspace:."
-  dependencies:
-    "@emotion/react": "npm:11.14.0"
-    "@emotion/styled": "npm:11.14.0"
-    "@mui/icons-material": "npm:6.4.1"
-    "@mui/material": "npm:6.4.1"
-    "@reduxjs/toolkit": "npm:^2.13.0"
-    "@types/eslint-plugin-jsx-a11y": "npm:6"
-    "@types/node": "npm:22.10.7"
-    "@types/react": "npm:19.0.7"
-    "@types/react-dom": "npm:19.0.3"
-    "@vitejs/plugin-react": "npm:4.3.4"
-    eslint: "npm:9.18.0"
-    eslint-config-prettier: "npm:10.0.1"
-    eslint-plugin-jsx-a11y: "npm:6.10.2"
-    eslint-plugin-react: "npm:7.37.4"
-    eslint-plugin-react-hooks: "npm:5.1.0"
-    eslint-plugin-react-refresh: "npm:0.4.18"
-    eslint-plugin-simple-import-sort: "npm:12.1.1"
-    globals: "npm:15.14.0"
-    husky: "npm:9.1.7"
-    lint-staged: "npm:15.4.1"
-    prettier: "npm:3.4.2"
-    react: "npm:19.0.0"
-    react-dom: "npm:19.0.0"
-    react-redux: "npm:^9.3.1"
-    react-router-dom: "npm:^7.18.5"
-    sharp: "npm:0.33.5"
-    terser: "npm:5.37.0"
-    typescript: "npm:5.7.3"
-    typescript-eslint: "npm:8.21.0"
-    vite: "npm:6.0.11"
-    vite-plugin-image-optimizer: "npm:1.1.8"
-    vite-tsconfig-paths: "npm:5.1.4"
-  dependenciesMeta:
-    esbuild:
-      built: true
-    sharp:
-      built: true
-  languageName: unknown
-  linkType: soft
 
 "react-redux@npm:^9.3.1":
   version: 9.3.1
