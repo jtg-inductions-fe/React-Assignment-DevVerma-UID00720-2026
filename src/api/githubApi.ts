@@ -104,3 +104,21 @@ export function getAuthenticatedGitHubUser(
         signal,
     });
 }
+
+export function getSuggestedGitHubUsers(
+    since?: number,
+    perPage = 30,
+    signal?: AbortSignal,
+): Promise<GitHubUser[]> {
+    const params = new URLSearchParams({
+        per_page: String(Math.min(Math.max(perPage, 1), 100)),
+    });
+
+    if (since !== undefined) {
+        params.set('since', String(since));
+    }
+
+    return requestGitHubApi<GitHubUser[]>(`/users?${params.toString()}`, {
+        signal,
+    });
+}
