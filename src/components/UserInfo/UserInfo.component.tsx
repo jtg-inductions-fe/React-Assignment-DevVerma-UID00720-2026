@@ -14,7 +14,7 @@ interface UserInfoProps {
     user: GitHubUser;
 }
 
-const UserInfo = ({ user }: UserInfoProps) => (
+export const UserInfo = ({ user }: UserInfoProps) => (
     <Card
         variant="outlined"
         sx={{
@@ -99,5 +99,3 @@ const UserInfo = ({ user }: UserInfoProps) => (
         </CardContent>
     </Card>
 );
-
-export default UserInfo;

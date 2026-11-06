@@ -2,10 +2,11 @@ import { useEffect, useState } from 'react';
 
 import { Alert, Container, Snackbar, Stack } from '@mui/material';
 
+import { UserProfile } from '@components';
+import { UserSuggestions } from '@components';
+import { useAppSelector } from '@store';
+
 import { getSuggestedGitHubUsers, type GitHubUser } from '@api/githubApi';
-import UserProfile from '@components/UserProfile/UserProfile';
-import UserSuggestions from '@components/UserSuggestions/UserSuggestions';
-import { useAppSelector } from '@store/hooks';
 
 const SUGGESTION_BATCH_SIZE = 30;
 const SUGGESTION_DISPLAY_COUNT = 3;
@@ -57,7 +58,7 @@ const getAvailableSuggestions = async (
     };
 };
 
-const ProfilePage = () => {
+export const ProfilePage = () => {
     const user = useAppSelector((state) => state.auth.user);
 
     const [suggestions, setSuggestions] = useState<GitHubUser[]>([]);
@@ -247,5 +248,3 @@ const ProfilePage = () => {
         </Container>
     );
 };
-
-export default ProfilePage;

@@ -10,8 +10,9 @@ import {
     Typography,
 } from '@mui/material';
 
+import { UserInfo } from '@components';
+
 import { type GitHubUser } from '@api/githubApi';
-import UserInfo from '@components/UserInfo/UserInfo';
 
 interface UserSuggestionsProps {
     suggestions: GitHubUser[];
@@ -20,7 +21,7 @@ interface UserSuggestionsProps {
     onRemove: (userId: number) => void;
 }
 
-const UserSuggestions = ({
+export const UserSuggestions = ({
     suggestions,
     loading,
     onRefresh,
@@ -119,5 +120,3 @@ const UserSuggestions = ({
         </Stack>
     </Card>
 );
-
-export default UserSuggestions;

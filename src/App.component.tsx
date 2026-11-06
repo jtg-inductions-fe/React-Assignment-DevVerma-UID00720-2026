@@ -1,7 +1,7 @@
-import Navbar from '@components/Navbar/Navbar';
-import AppRoutes from '@routes/AppRoutes';
+import { Navbar } from '@components';
+import { AppRoutes } from '@routes';
 
-const App = () => (
+export const App = () => (
     <div className="app">
         <Navbar />
 
@@ -10,5 +10,3 @@ const App = () => (
         </main>
     </div>
 );
-
-export default App;

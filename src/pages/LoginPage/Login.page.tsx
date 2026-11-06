@@ -1,7 +1,5 @@
 import { type FormEvent, type SyntheticEvent, useState } from 'react';
 
-import { useNavigate } from 'react-router-dom';
-
 import {
     Alert,
     Box,
@@ -13,15 +11,17 @@ import {
     Typography,
 } from '@mui/material';
 
+import { useNavigate } from 'react-router-dom';
+
+import { useAppDispatch, useAppSelector } from '@store';
 import { clearAuthError, loginUser } from '@store/auth/authSlice';
-import { useAppDispatch, useAppSelector } from '@store/hooks';
 
 interface LoginFormErrors {
     username: string;
     token: string;
 }
 
-const LoginPage = () => {
+export const LoginPage = () => {
     const [username, setUsername] = useState('');
     const [token, setToken] = useState('');
 
@@ -204,5 +204,3 @@ const LoginPage = () => {
         </Container>
     );
 };
-
-export default LoginPage;

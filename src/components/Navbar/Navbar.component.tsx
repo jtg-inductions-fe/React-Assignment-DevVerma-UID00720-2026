@@ -1,7 +1,5 @@
 import { useState } from 'react';
 
-import { Link as RouterLink, useNavigate } from 'react-router-dom';
-
 import {
     AppBar,
     Avatar,
@@ -16,12 +14,14 @@ import {
     Typography,
 } from '@mui/material';
 
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
+
+import { useAppDispatch, useAppSelector } from '@store';
 import { logoutUser } from '@store/auth/authSlice';
-import { useAppDispatch, useAppSelector } from '@store/hooks';
 
 const settings = ['Profile', 'Logout'];
 
-const Navbar = () => {
+export const Navbar = () => {
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
 
@@ -142,5 +142,3 @@ const Navbar = () => {
         </AppBar>
     );
 };
-
-export default Navbar;

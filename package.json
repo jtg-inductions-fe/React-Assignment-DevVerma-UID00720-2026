@@ -1,11 +1,11 @@
 {
-    "name": "react-mui-base-template",
+    "name": "github-finder",
     "resolutions": {
         "vite": "6.0.11"
     },
-    "description": "",
+    "description": "A GitHub user search application built with React, TypeScript, Redux Toolkit, and Material UI.",
     "private": true,
-    "version": "0.0.0",
+    "version": "1.0.0",
     "type": "module",
     "scripts": {
         "dev": "vite",
@@ -69,15 +69,6 @@
         "sharp": {
             "built": true
         }
-    },
-    "lint-staged": {
-        "*.{js,jsx,ts,tsx}": [
-            "eslint --fix",
-            "prettier --write"
-        ],
-        "*.{json,css,scss,md,yml,yaml,html}": [
-            "prettier --write"
-        ]
     },
     "packageManager": "yarn@4.18.1"
 }

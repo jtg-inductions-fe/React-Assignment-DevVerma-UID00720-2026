@@ -1,12 +1,12 @@
 import { Navigate } from 'react-router-dom';
 
-import { useAppSelector } from '@store/hooks';
+import { useAppSelector } from '@store';
 
 interface ProtectedRouteProps {
     children: React.ReactNode;
 }
 
-const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
+export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
     const user = useAppSelector((state) => state.auth.user);
 
     if (!user) {
@@ -15,5 +15,3 @@ const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
 
     return children;
 };
-
-export default ProtectedRoute;

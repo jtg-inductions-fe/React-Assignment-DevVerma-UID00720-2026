@@ -1,8 +1,8 @@
 import { describe, expect, it, vi } from 'vitest';
 
-import { fireEvent, render, screen } from '@testing-library/react';
+import SearchBar from './SearchBar.component';
 
-import SearchBar from './SearchBar';
+import { fireEvent, render, screen } from '@testing-library/react';
 
 describe('SearchBar', () => {
     it('renders the search input with its placeholder', () => {

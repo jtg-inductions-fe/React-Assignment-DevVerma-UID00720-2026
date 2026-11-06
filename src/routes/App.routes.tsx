@@ -1,12 +1,9 @@
 import { Route, Routes } from 'react-router-dom';
 
-import ProtectedRoute from '@components/ProtectedRoute/ProtectedRoute';
-import HomePage from '@pages/HomePage/HomePage';
-import LoginPage from '@pages/LoginPage/LoginPage';
-import NotFoundPage from '@pages/NotFoundPage/NotFoundPage';
-import ProfilePage from '@pages/ProfilePage/ProfilePage';
+import { ProtectedRoute } from '@components';
+import { HomePage, LoginPage, NotFoundPage, ProfilePage } from '@pages';
 
-const AppRoutes = () => (
+export const AppRoutes = () => (
     <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
@@ -21,5 +18,3 @@ const AppRoutes = () => (
         <Route path="*" element={<NotFoundPage />} />
     </Routes>
 );
-
-export default AppRoutes;

@@ -1,14 +1,18 @@
 import { Box, Card, CardContent, Typography } from '@mui/material';
 
+import { UserInfo } from '@components';
+
 import { type GitHubUser } from '@api/githubApi';
-import UserInfo from '@components/UserInfo/UserInfo';
 
 interface UserResultsCardProps {
     users: GitHubUser[];
     hasSearched: boolean;
 }
 
-const UserResultsCard = ({ users, hasSearched }: UserResultsCardProps) => (
+export const UserResultsCard = ({
+    users,
+    hasSearched,
+}: UserResultsCardProps) => (
     <Card
         variant="outlined"
         sx={{
@@ -62,5 +66,3 @@ const UserResultsCard = ({ users, hasSearched }: UserResultsCardProps) => (
         </CardContent>
     </Card>
 );
-
-export default UserResultsCard;

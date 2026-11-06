@@ -20,7 +20,7 @@ interface UserProfileProps {
     user: GitHubUser;
 }
 
-const UserProfile = ({ user }: UserProfileProps) => {
+export const UserProfile = ({ user }: UserProfileProps) => {
     const profileDetails = [
         {
             label: 'Location',
@@ -233,5 +233,3 @@ const UserProfile = ({ user }: UserProfileProps) => {
         </Card>
     );
 };
-
-export default UserProfile;

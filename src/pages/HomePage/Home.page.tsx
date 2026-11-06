@@ -9,16 +9,16 @@ import {
     Typography,
 } from '@mui/material';
 
-import SearchBar from '@components/SearchBar/SearchBar';
-import UserResultsCard from '@components/UserResultsCard/UserResultsCard';
+import { SearchBar } from '@components';
+import { UserResultsCard } from '@components';
+import { useAppDispatch, useAppSelector } from '@store';
 import {
     clearSearchError,
     clearSearchResults,
     searchGitHubUsers,
 } from '@store/githubSearch/githubSearchSlice';
-import { useAppDispatch, useAppSelector } from '@store/hooks';
 
-const HomePage = () => {
+export const HomePage = () => {
     const [searchValue, setSearchValue] = useState('');
 
     const dispatch = useAppDispatch();
@@ -149,5 +149,3 @@ const HomePage = () => {
         </Container>
     );
 };
-
-export default HomePage;

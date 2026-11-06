@@ -1,9 +1,9 @@
 import { describe, expect, it } from 'vitest';
 
+import UserInfo from './UserInfo.component';
+
 import { type GitHubUser } from '@api/githubApi';
 import { render, screen } from '@testing-library/react';
-
-import UserInfo from './UserInfo';
 
 const mockUser: GitHubUser = {
     id: 1,
