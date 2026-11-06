@@ -1,28 +1,52 @@
 import type { Components } from '@mui/material/styles';
 
-// Local Font files
-import InterRegularTTF from '@assets/fonts/inter/inter-regular.ttf';
-import InterRegularWOFF2 from '@assets/fonts/inter/inter-regular.woff2';
+import InterBold from '@assets/fonts/inter/inter-bold.woff2';
+import InterLight from '@assets/fonts/inter/inter-light.woff2';
+import InterMedium from '@assets/fonts/inter/inter-medium.woff2';
+import InterRegular from '@assets/fonts/inter/inter-regular.woff2';
 
-// TODO: Add necessary font face declarations here
 const fontFaceDeclarations = `
-       @font-face {
-        font-display: swap; 
+    @font-face {
+        font-display: swap;
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 300;
+        src: url(${InterLight}) format('woff2');
+    }
+
+    @font-face {
+        font-display: swap;
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 400;
+        src: url(${InterRegular}) format('woff2');
+    }
+
+    @font-face {
+        font-display: swap;
         font-family: 'Inter';
         font-style: normal;
         font-weight: 500;
-        src: url(${InterRegularWOFF2}) format('woff2'), 
-        url(${InterRegularTTF}) format('truetype');
-      };
-    `;
+        src: url(${InterMedium}) format('woff2');
+    }
+
+    @font-face {
+        font-display: swap;
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 700;
+        src: url(${InterBold}) format('woff2');
+    }
+`;
 
 export const components: Components = {
     MuiCssBaseline: {
-        styleOverrides: {
-            html: {
-                fontSize: '62.5%',
-            },
-            fontFaceDeclarations,
-        },
+        styleOverrides: `
+            ${fontFaceDeclarations}
+
+            html {
+                font-size: 62.5%;
+            }
+        `,
     },
 };
