@@ -1,15 +1,17 @@
+import { configureStore } from '@reduxjs/toolkit';
 import { Provider } from 'react-redux';
+
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { configureStore } from '@reduxjs/toolkit';
 import githubSearchReducer from '@store/githubSearch/githubSearchSlice';
-import { act, fireEvent, render, screen } from '@testing-library/react';
 
 import HomePage from './HomePage';
 import {
     type GitHubSearchResponse,
     searchGitHubUsers as searchGitHubUsersApi,
 } from '../../api/githubApi';
+
+import { act, fireEvent, render, screen } from '@testing-library/react';
 
 vi.mock('../../api/githubApi', () => ({
     searchGitHubUsers: vi.fn(),

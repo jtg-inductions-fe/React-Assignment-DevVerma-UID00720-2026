@@ -1,8 +1,8 @@
-import { getAuthenticatedGitHubUser, type GitHubUser } from '@api/githubApi';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
-export const USER_INFO_STORAGE_KEY = 'githubUser';
-export const USER_TOKEN_STORAGE_KEY = 'githubToken';
+import { USER_INFO_STORAGE_KEY, USER_TOKEN_STORAGE_KEY } from '@constant';
+
+import { getAuthenticatedGitHubUser, type GitHubUser } from '@api/githubApi';
 
 interface LoginCredentials {
     username: string;

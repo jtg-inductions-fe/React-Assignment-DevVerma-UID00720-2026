@@ -1,4 +1,4 @@
-export { Navbar } from './Navbar/Navbar.component';
+export { Navbar } from './Navbar/Navbar.container';
 export { ProtectedRoute } from './ProtectedRoute/ProtectedRoute.component';
 export { SearchBar } from './SearchBar/SearchBar.component';
 export { UserInfo } from './UserInfo/UserInfo.component';

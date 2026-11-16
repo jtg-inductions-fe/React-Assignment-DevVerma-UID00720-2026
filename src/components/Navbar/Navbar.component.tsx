@@ -1,144 +1,59 @@
-import { useState } from 'react';
+import { AppBar, Box, Container, Toolbar, Typography } from '@mui/material';
 
-import {
-    AppBar,
-    Avatar,
-    Box,
-    Button,
-    Container,
-    IconButton,
-    Menu,
-    MenuItem,
-    Toolbar,
-    Tooltip,
-    Typography,
-} from '@mui/material';
+import { Link as RouterLink } from 'react-router-dom';
 
-import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import { NavLinks } from './NavLinks.component';
+import { NavbarAction } from './NavLinks.component';
 
-import { useAppDispatch, useAppSelector } from '@store';
-import { logoutUser } from '@store/auth/authSlice';
+interface Props {
+    user: { avatar_url?: string; login?: string } | null;
+    isLoggedIn: boolean;
+    anchorElUser: HTMLElement | null;
+    onOpenUserMenu: (event: React.MouseEvent<HTMLElement>) => void;
+    onCloseUserMenu: () => void;
+    onMenuItemClick: (action: NavbarAction) => void;
+}
 
-const settings = ['Profile', 'Logout'];
+export const NavbarComponent = ({
+    user,
+    isLoggedIn,
+    anchorElUser,
+    onOpenUserMenu,
+    onCloseUserMenu,
+    onMenuItemClick,
+}: Props) => (
+    <AppBar
+        position="static"
+        color="default"
+        elevation={0}
+        sx={{ borderBottom: 1, borderColor: 'divider' }}
+    >
+        <Container>
+            <Toolbar component="nav" disableGutters sx={{ gap: 2 }}>
+                <Typography
+                    component={RouterLink}
+                    to="/"
+                    variant="h3"
+                    sx={{
+                        color: 'primary.main',
+                        textDecoration: 'none',
+                        whiteSpace: 'nowrap',
+                    }}
+                >
+                    GitHub Finder
+                </Typography>
 
-export const Navbar = () => {
-    const navigate = useNavigate();
-    const dispatch = useAppDispatch();
+                <Box sx={{ flexGrow: 1 }} />
 
-    const user = useAppSelector((state) => state.auth.user);
-    const isLoggedIn = Boolean(user);
-
-    const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
-
-    const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
-        setAnchorElUser(event.currentTarget);
-    };
-
-    const handleCloseUserMenu = () => {
-        setAnchorElUser(null);
-    };
-
-    const handleLogout = async () => {
-        handleCloseUserMenu();
-        await dispatch(logoutUser());
-        void navigate('/');
-    };
-
-    const handleMenuItemClick = (setting: string) => {
-        handleCloseUserMenu();
-
-        if (setting === 'Profile') {
-            void navigate('/profile');
-        } else if (setting === 'Logout') {
-            void handleLogout();
-        }
-    };
-
-    return (
-        <AppBar
-            position="static"
-            color="default"
-            elevation={0}
-            sx={{
-                borderBottom: 1,
-                borderColor: 'divider',
-            }}
-        >
-            <Container maxWidth="xl">
-                <Toolbar disableGutters sx={{ gap: 2 }}>
-                    <Typography
-                        component={RouterLink}
-                        to="/"
-                        variant="h3"
-                        sx={{
-                            color: 'primary.main',
-                            textDecoration: 'none',
-                            whiteSpace: 'nowrap',
-                        }}
-                    >
-                        GitHub Finder
-                    </Typography>
-
-                    <Box sx={{ flexGrow: 1 }} />
-
-                    {!isLoggedIn ? (
-                        <Button
-                            component={RouterLink}
-                            to="/login"
-                            variant="contained"
-                        >
-                            Login
-                        </Button>
-                    ) : (
-                        <Box>
-                            <Tooltip title="Open settings">
-                                <IconButton
-                                    onClick={handleOpenUserMenu}
-                                    sx={{ p: 0 }}
-                                    aria-label="Open profile menu"
-                                >
-                                    <Avatar
-                                        src={user?.avatar_url}
-                                        alt={user?.login ?? 'Profile'}
-                                    />
-                                </IconButton>
-                            </Tooltip>
-
-                            <Menu
-                                sx={{ mt: '45px' }}
-                                id="menu-appbar"
-                                anchorEl={anchorElUser}
-                                anchorOrigin={{
-                                    vertical: 'top',
-                                    horizontal: 'right',
-                                }}
-                                keepMounted
-                                transformOrigin={{
-                                    vertical: 'top',
-                                    horizontal: 'right',
-                                }}
-                                open={Boolean(anchorElUser)}
-                                onClose={handleCloseUserMenu}
-                            >
-                                {settings.map((setting) => (
-                                    <MenuItem
-                                        key={setting}
-                                        onClick={() =>
-                                            handleMenuItemClick(setting)
-                                        }
-                                    >
-                                        <Typography
-                                            sx={{ textAlign: 'center' }}
-                                        >
-                                            {setting}
-                                        </Typography>
-                                    </MenuItem>
-                                ))}
-                            </Menu>
-                        </Box>
-                    )}
-                </Toolbar>
-            </Container>
-        </AppBar>
-    );
-};
+                <NavLinks
+                    user={user}
+                    isLoggedIn={isLoggedIn}
+                    anchorElUser={anchorElUser}
+                    onOpenUserMenu={onOpenUserMenu}
+                    onCloseUserMenu={onCloseUserMenu}
+                    onMenuItemClick={onMenuItemClick}
+                />
+            </Toolbar>
+        </Container>
+    </AppBar>
+);
