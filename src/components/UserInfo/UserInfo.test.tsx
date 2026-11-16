@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import UserInfo from './UserInfo.component';
+import { UserInfo } from '@components';
 
 import { type GitHubUser } from '@api/githubApi';
 import { render, screen } from '@testing-library/react';

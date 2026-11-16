@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
 
-import SearchBar from './SearchBar.component';
+import { SearchBar } from '@components';
 
 import { fireEvent, render, screen } from '@testing-library/react';
 

@@ -1,3 +1,5 @@
+import { GITHUB_API_BASE_URL } from '@constant';
+
 export interface GitHubUser {
     id: number;
     login: string;
@@ -43,7 +45,7 @@ async function requestGitHubApi<T>(
         headers.Authorization = `Bearer ${token}`;
     }
 
-    const response = await fetch(`https://api.github.com${endpoint}`, {
+    const response = await fetch(`${GITHUB_API_BASE_URL}${endpoint}`, {
         headers,
         signal,
     });

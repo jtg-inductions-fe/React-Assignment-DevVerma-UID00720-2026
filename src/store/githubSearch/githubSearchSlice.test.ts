@@ -12,7 +12,6 @@ const initialState: ReturnType<typeof githubSearchReducer> = {
     results: null,
     status: 'idle',
     error: null,
-    currentRequestId: undefined,
 };
 
 const mockResults: GitHubSearchResponse = {
@@ -37,45 +36,43 @@ describe('githubSearchReducer', () => {
     });
 
     it('sets loading status when a search starts', () => {
-        const action = searchGitHubUsers.pending('request-1', 'react');
+        const action = searchGitHubUsers.pending('request-1', {
+            query: 'react',
+        });
 
         const state = githubSearchReducer(initialState, action);
 
         expect(state.status).toBe('loading');
         expect(state.error).toBeNull();
-        expect(state.currentRequestId).toBe('request-1');
     });
 
     it('stores the results when a search succeeds', () => {
         const loadingState = githubSearchReducer(
             initialState,
-            searchGitHubUsers.pending('request-1', 'react'),
+            searchGitHubUsers.pending('request-1', { query: 'react' }),
         );
 
-        const action = searchGitHubUsers.fulfilled(
-            mockResults,
-            'request-1',
-            'react',
-        );
+        const action = searchGitHubUsers.fulfilled(mockResults, 'request-1', {
+            query: 'react',
+        });
 
         const state = githubSearchReducer(loadingState, action);
 
         expect(state.status).toBe('succeeded');
         expect(state.results).toEqual(mockResults);
         expect(state.error).toBeNull();
-        expect(state.currentRequestId).toBeUndefined();
     });
 
     it('stores an error when a search fails', () => {
         const loadingState = githubSearchReducer(
             initialState,
-            searchGitHubUsers.pending('request-1', 'react'),
+            searchGitHubUsers.pending('request-1', { query: 'react' }),
         );
 
         const action = searchGitHubUsers.rejected(
             null,
             'request-1',
-            'react',
+            { query: 'react' },
             'GitHub API request failed',
         );
 
@@ -83,7 +80,6 @@ describe('githubSearchReducer', () => {
 
         expect(state.status).toBe('failed');
         expect(state.error).toBe('GitHub API request failed');
-        expect(state.currentRequestId).toBeUndefined();
     });
 
     it('clears search results and resets the status', () => {
@@ -92,7 +88,6 @@ describe('githubSearchReducer', () => {
             results: mockResults,
             status: 'succeeded' as const,
             error: 'Previous error',
-            currentRequestId: 'request-1',
         };
 
         const state = githubSearchReducer(
@@ -103,7 +98,6 @@ describe('githubSearchReducer', () => {
         expect(state.results).toBeNull();
         expect(state.status).toBe('idle');
         expect(state.error).toBeNull();
-        expect(state.currentRequestId).toBeUndefined();
     });
 
     it('clears the search error without clearing results', () => {

@@ -3,9 +3,9 @@ import { Provider } from 'react-redux';
 
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
+import { HomePage } from '@pages';
 import githubSearchReducer from '@store/githubSearch/githubSearchSlice';
 
-import HomePage from './HomePage';
 import {
     type GitHubSearchResponse,
     searchGitHubUsers as searchGitHubUsersApi,
@@ -33,6 +33,8 @@ const mockResults: GitHubSearchResponse = {
     ],
 };
 
+import { MemoryRouter } from 'react-router-dom';
+
 function renderHomePage() {
     const store = configureStore({
         reducer: {
@@ -42,7 +44,9 @@ function renderHomePage() {
 
     render(
         <Provider store={store}>
-            <HomePage />
+            <MemoryRouter>
+                <HomePage />
+            </MemoryRouter>
         </Provider>,
     );
 
