@@ -52,7 +52,7 @@ export const UserResultsCard = ({
                         display: 'flex',
                         flexDirection: 'column',
                         gap: 2,
-                        height: 264,
+                        maxHeight: 264,
                         overflowY: 'auto',
                         overflowX: 'hidden',
                         pr: 1,

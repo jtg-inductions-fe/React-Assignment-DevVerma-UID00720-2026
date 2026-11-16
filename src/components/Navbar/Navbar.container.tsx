@@ -2,6 +2,7 @@ import { useState } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 
+import { USER_INFO_STORAGE_KEY, USER_TOKEN_STORAGE_KEY } from '@constant';
 import { useAppDispatch, useAppSelector } from '@store';
 import { logoutUser } from '@store/auth/authSlice';
 
@@ -32,6 +33,8 @@ export const Navbar = () => {
                 void navigate('/profile');
                 break;
             case 'Logout':
+                localStorage.removeItem(USER_INFO_STORAGE_KEY);
+                localStorage.removeItem(USER_TOKEN_STORAGE_KEY);
                 void dispatch(logoutUser());
                 void navigate('/');
                 break;

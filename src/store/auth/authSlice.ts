@@ -87,16 +87,16 @@ export const loginUser = createAsyncThunk<
     }
 });
 
-export const logoutUser = createAsyncThunk('auth/logout', () => {
-    localStorage.removeItem(USER_INFO_STORAGE_KEY);
-    localStorage.removeItem(USER_TOKEN_STORAGE_KEY);
-});
-
 const authSlice = createSlice({
     name: 'auth',
     initialState,
     reducers: {
         clearAuthError: (state) => {
+            state.error = null;
+        },
+        logoutUser: (state) => {
+            state.user = null;
+            state.status = 'idle';
             state.error = null;
         },
     },
@@ -117,15 +117,10 @@ const authSlice = createSlice({
                     action.payload ??
                     action.error.message ??
                     'Something went wrong during login.';
-            })
-            .addCase(logoutUser.fulfilled, (state) => {
-                state.user = null;
-                state.status = 'idle';
-                state.error = null;
             });
     },
 });
 
-export const { clearAuthError } = authSlice.actions;
+export const { clearAuthError, logoutUser } = authSlice.actions;
 
 export default authSlice.reducer;
