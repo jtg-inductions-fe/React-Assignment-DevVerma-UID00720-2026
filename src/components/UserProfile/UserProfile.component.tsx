@@ -40,10 +40,15 @@ export const UserProfile = ({ user }: UserProfileProps) => {
     ];
 
     const joinedDate = user.created_at
-        ? new Date(user.created_at).toLocaleDateString('en-US', {
-              month: 'long',
-              year: 'numeric',
-          })
+        ? (() => {
+              const date = new Date(user.created_at);
+              return isNaN(date.getTime())
+                  ? null
+                  : date.toLocaleDateString('en-US', {
+                        month: 'long',
+                        year: 'numeric',
+                    });
+          })()
         : null;
 
     const stats = [

@@ -108,6 +108,7 @@ export function getAuthenticatedGitHubUser(
 }
 
 export function getSuggestedGitHubUsers(
+    token: string,
     since?: number,
     perPage = 30,
     signal?: AbortSignal,
@@ -121,6 +122,7 @@ export function getSuggestedGitHubUsers(
     }
 
     return requestGitHubApi<GitHubUser[]>(`/users?${params.toString()}`, {
+        token,
         signal,
     });
 }
