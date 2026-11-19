@@ -9,7 +9,7 @@ import { RootState } from '@store';
 import {
     type GitHubSearchResponse,
     searchGitHubUsers as searchGitHubUsersApi,
-} from '@api/githubApi';
+} from '@api';
 
 interface GitHubSearchState {
     results: GitHubSearchResponse | null;

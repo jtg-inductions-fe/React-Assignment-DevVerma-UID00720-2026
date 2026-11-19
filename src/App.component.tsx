@@ -1,5 +1,6 @@
-import { Navbar } from '@components';
 import { AppRoutes } from '@routes';
+
+import { Navbar } from '@containers';
 
 export const App = () => (
     <div className="app">

@@ -8,9 +8,7 @@ describe('SearchBar', () => {
     it('renders the search input with its placeholder', () => {
         render(<SearchBar value="" onChange={vi.fn()} />);
 
-        expect(
-            screen.getByPlaceholderText('Search GitHub users...'),
-        ).toBeInTheDocument();
+        expect(screen.getByPlaceholderText('Search...')).toBeInTheDocument();
     });
 
     it('calls onChange when the user types', () => {
@@ -18,12 +16,9 @@ describe('SearchBar', () => {
 
         render(<SearchBar value="" onChange={handleChange} />);
 
-        fireEvent.change(
-            screen.getByRole('textbox', {
-                name: 'Search GitHub users',
-            }),
-            { target: { value: 'react' } },
-        );
+        fireEvent.change(screen.getByRole('searchbox', { name: 'Search...' }), {
+            target: { value: 'react' },
+        });
 
         expect(handleChange).toHaveBeenCalledWith('react');
     });
@@ -32,9 +27,7 @@ describe('SearchBar', () => {
         render(<SearchBar value="typescript" onChange={vi.fn()} />);
 
         expect(
-            screen.getByRole('textbox', {
-                name: 'Search GitHub users',
-            }),
+            screen.getByRole('searchbox', { name: 'Search...' }),
         ).toHaveValue('typescript');
     });
 });

@@ -1,7 +1,11 @@
-export { Navbar } from './Navbar/Navbar.container';
-export { ProtectedRoute } from './ProtectedRoute/ProtectedRoute.component';
-export { SearchBar } from './SearchBar/SearchBar.component';
-export { UserInfo } from './UserInfo/UserInfo.component';
-export { UserProfile } from './UserProfile/UserProfile.component';
-export { UserResultsCard } from './UserResultsCard/UserResultsCard.component';
-export { UserSuggestions } from './UserSuggestions/UserSuggestions.component';
+export * from './Navbar';
+export * from './ProtectedRoute';
+export * from './SearchBar';
+export * from './UserInfo';
+export * from './UserProfile';
+export * from './UserResultsCard';
+export * from './UserSuggestions';
+export * from './Home';
+export * from './Login';
+export * from './Profile';
+export * from './StatCard';

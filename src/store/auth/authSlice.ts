@@ -1,8 +1,8 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
-import { USER_INFO_STORAGE_KEY, USER_TOKEN_STORAGE_KEY } from '@constant';
+import { USER_INFO_STORAGE_KEY, USER_TOKEN_STORAGE_KEY } from '@constants';
 
-import { getAuthenticatedGitHubUser, type GitHubUser } from '@api/githubApi';
+import { getAuthenticatedGitHubUser, type GitHubUser } from '@api';
 
 interface LoginCredentials {
     username: string;
@@ -98,6 +98,8 @@ const authSlice = createSlice({
             state.user = null;
             state.status = 'idle';
             state.error = null;
+            localStorage.removeItem(USER_INFO_STORAGE_KEY);
+            localStorage.removeItem(USER_TOKEN_STORAGE_KEY);
         },
     },
     extraReducers: (builder) => {

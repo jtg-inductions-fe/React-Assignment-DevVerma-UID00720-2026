@@ -1,3 +1,3 @@
-import { ProfileContainer } from './Profile.container';
+import { ProfileContainer } from '@containers';
 
 export const ProfilePage = () => <ProfileContainer />;

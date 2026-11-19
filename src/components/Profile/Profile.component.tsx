@@ -2,7 +2,7 @@ import { Alert, Container, Snackbar, Stack } from '@mui/material';
 
 import { UserProfile, UserSuggestions } from '@components';
 
-import { type GitHubUser } from '@api/githubApi';
+import { type GitHubUser } from '@api';
 
 interface Props {
     user: GitHubUser;

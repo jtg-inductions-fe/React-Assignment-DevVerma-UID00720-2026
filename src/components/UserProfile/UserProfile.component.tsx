@@ -1,8 +1,11 @@
-import BusinessOutlinedIcon from '@mui/icons-material/BusinessOutlined';
-import CalendarTodayOutlinedIcon from '@mui/icons-material/CalendarTodayOutlined';
-import GitHubIcon from '@mui/icons-material/GitHub';
-import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
-import MailOutlineIcon from '@mui/icons-material/MailOutline';
+import {
+    Article as ArticleIcon,
+    BusinessOutlined as BusinessOutlinedIcon,
+    CalendarTodayOutlined as CalendarTodayOutlinedIcon,
+    GitHub as GitHubIcon,
+    LocationOnOutlined as LocationOnOutlinedIcon,
+    MailOutline as MailOutlineIcon,
+} from '@mui/icons-material';
 import {
     Avatar,
     Box,
@@ -14,7 +17,9 @@ import {
     Typography,
 } from '@mui/material';
 
-import { type GitHubUser } from '@api/githubApi';
+import { StatCard } from '@components';
+
+import { type GitHubUser } from '@api';
 
 interface UserProfileProps {
     user: GitHubUser;
@@ -36,6 +41,11 @@ export const UserProfile = ({ user }: UserProfileProps) => {
             label: 'Email',
             value: user.email,
             icon: <MailOutlineIcon fontSize="small" />,
+        },
+        {
+            label: 'Blog',
+            value: user.blog,
+            icon: <ArticleIcon fontSize="small" />,
         },
     ];
 
@@ -130,7 +140,6 @@ export const UserProfile = ({ user }: UserProfileProps) => {
                     )}
 
                     <Button
-                        component="a"
                         href={user.html_url}
                         target="_blank"
                         rel="noopener noreferrer"
@@ -160,27 +169,11 @@ export const UserProfile = ({ user }: UserProfileProps) => {
                 }}
             >
                 {stats.map((stat) => (
-                    <Box
+                    <StatCard
                         key={stat.label}
-                        sx={{
-                            textAlign: 'center',
-                            p: 2,
-                            borderRadius: 2,
-                            backgroundColor: 'action.hover',
-                        }}
-                    >
-                        <Typography
-                            variant="h5"
-                            fontWeight={700}
-                            color="primary"
-                        >
-                            {(stat.value ?? 0).toLocaleString()}
-                        </Typography>
-
-                        <Typography variant="body2" color="text.secondary">
-                            {stat.label}
-                        </Typography>
-                    </Box>
+                        label={stat.label}
+                        value={stat.value}
+                    />
                 ))}
             </Box>
 

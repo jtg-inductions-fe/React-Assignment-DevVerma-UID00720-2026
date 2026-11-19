@@ -1,6 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { Provider } from 'react-redux';
 
+import { MemoryRouter } from 'react-router-dom';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { HomePage } from '@pages';
@@ -9,11 +10,10 @@ import githubSearchReducer from '@store/githubSearch/githubSearchSlice';
 import {
     type GitHubSearchResponse,
     searchGitHubUsers as searchGitHubUsersApi,
-} from '../../api/githubApi';
-
+} from '@api';
 import { act, fireEvent, render, screen } from '@testing-library/react';
 
-vi.mock('../../api/githubApi', () => ({
+vi.mock('@api', () => ({
     searchGitHubUsers: vi.fn(),
 }));
 
@@ -32,8 +32,6 @@ const mockResults: GitHubSearchResponse = {
         },
     ],
 };
-
-import { MemoryRouter } from 'react-router-dom';
 
 function renderHomePage() {
     const store = configureStore({
@@ -72,9 +70,7 @@ describe('HomePage integration', () => {
         ).toBeInTheDocument();
 
         expect(
-            screen.getByRole('textbox', {
-                name: 'Search GitHub users',
-            }),
+            screen.getByRole('searchbox', { name: 'Search GitHub users' }),
         ).toBeInTheDocument();
     });
 
@@ -84,9 +80,7 @@ describe('HomePage integration', () => {
         renderHomePage();
 
         fireEvent.change(
-            screen.getByRole('textbox', {
-                name: 'Search GitHub users',
-            }),
+            screen.getByRole('searchbox', { name: 'Search GitHub users' }),
             { target: { value: 'react' } },
         );
 
@@ -116,9 +110,7 @@ describe('HomePage integration', () => {
         renderHomePage();
 
         fireEvent.change(
-            screen.getByRole('textbox', {
-                name: 'Search GitHub users',
-            }),
+            screen.getByRole('searchbox', { name: 'Search GitHub users' }),
             { target: { value: 'react' } },
         );
 
@@ -135,9 +127,7 @@ describe('HomePage integration', () => {
         renderHomePage();
 
         fireEvent.change(
-            screen.getByRole('textbox', {
-                name: 'Search GitHub users',
-            }),
+            screen.getByRole('searchbox', { name: 'Search GitHub users' }),
             { target: { value: '   ' } },
         );
 
@@ -154,9 +144,7 @@ describe('HomePage integration', () => {
         renderHomePage();
 
         fireEvent.change(
-            screen.getByRole('textbox', {
-                name: 'Search GitHub users',
-            }),
+            screen.getByRole('searchbox', { name: 'Search GitHub users' }),
             { target: { value: 'react' } },
         );
 
@@ -183,9 +171,7 @@ describe('HomePage integration', () => {
         renderHomePage();
 
         fireEvent.change(
-            screen.getByRole('textbox', {
-                name: 'Search GitHub users',
-            }),
+            screen.getByRole('searchbox', { name: 'Search GitHub users' }),
             { target: { value: 'nonexistent-user' } },
         );
 

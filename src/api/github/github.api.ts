@@ -1,35 +1,9 @@
-import { GITHUB_API_BASE_URL } from '@constant';
-
-export interface GitHubUser {
-    id: number;
-    login: string;
-    avatar_url: string;
-    html_url: string;
-    type: string;
-
-    name?: string | null;
-    company?: string | null;
-    location?: string | null;
-    followers?: number;
-    following?: number;
-    bio?: string | null;
-    blog?: string | null;
-    email?: string | null;
-    public_repos?: number;
-    public_gists?: number;
-    created_at?: string;
-}
-
-export interface GitHubSearchResponse {
-    total_count: number;
-    incomplete_results: boolean;
-    items: GitHubUser[];
-}
-
-interface GitHubApiRequestOptions {
-    signal?: AbortSignal;
-    token?: string;
-}
+import { GITHUB_API_BASE_URL, GITHUB_API_PATHS } from './github.constant';
+import type {
+    GitHubApiRequestOptions,
+    GitHubSearchResponse,
+    GitHubUser,
+} from './github.type';
 
 async function requestGitHubApi<T>(
     endpoint: string,
@@ -39,6 +13,7 @@ async function requestGitHubApi<T>(
 
     const headers: HeadersInit = {
         Accept: 'application/vnd.github+json',
+        'X-GitHub-Api-Version': '2026-03-10',
     };
 
     if (token) {
@@ -71,7 +46,16 @@ async function requestGitHubApi<T>(
             );
         }
 
+        if (response.status === 404) {
+            throw new Error('The requested resource was not found on GitHub.');
+        }
+
         throw new Error(message);
+    }
+
+    // no data
+    if (response.status === 204) {
+        return null as T;
     }
 
     if (data === null) {
@@ -83,16 +67,22 @@ async function requestGitHubApi<T>(
 
 export function searchGitHubUsers(
     query: string,
-    perPage = 3,
+    perPage: number,
     signal?: AbortSignal,
 ): Promise<GitHubSearchResponse> {
+    const trimmedQuery = query.trim();
+
+    if (!trimmedQuery) {
+        return Promise.reject(new Error('Search query cannot be empty.'));
+    }
+
     const params = new URLSearchParams({
-        q: query,
-        per_page: String(Math.min(Math.max(perPage, 1), 100)),
+        q: trimmedQuery,
+        per_page: perPage.toString(),
     });
 
     return requestGitHubApi<GitHubSearchResponse>(
-        `/search/users?${params.toString()}`,
+        `${GITHUB_API_PATHS.SEARCH_USERS}?${params.toString()}`,
         { signal },
     );
 }
@@ -101,7 +91,7 @@ export function getAuthenticatedGitHubUser(
     token: string,
     signal?: AbortSignal,
 ): Promise<GitHubUser> {
-    return requestGitHubApi<GitHubUser>('/user', {
+    return requestGitHubApi<GitHubUser>(GITHUB_API_PATHS.AUTHENTICATED_USER, {
         token,
         signal,
     });
@@ -109,20 +99,23 @@ export function getAuthenticatedGitHubUser(
 
 export function getSuggestedGitHubUsers(
     token: string,
+    perPage: number,
     since?: number,
-    perPage = 30,
     signal?: AbortSignal,
 ): Promise<GitHubUser[]> {
     const params = new URLSearchParams({
-        per_page: String(Math.min(Math.max(perPage, 1), 100)),
+        per_page: perPage.toString(),
     });
 
     if (since !== undefined) {
         params.set('since', String(since));
     }
 
-    return requestGitHubApi<GitHubUser[]>(`/users?${params.toString()}`, {
-        token,
-        signal,
-    });
+    return requestGitHubApi<GitHubUser[]>(
+        `${GITHUB_API_PATHS.SUGGESTED_USERS}?${params.toString()}`,
+        {
+            token,
+            signal,
+        },
+    );
 }

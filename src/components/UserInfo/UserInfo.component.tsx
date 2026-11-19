@@ -1,77 +1,34 @@
-import {
-    Avatar,
-    Box,
-    Button,
-    Card,
-    CardContent,
-    Chip,
-    Typography,
-} from '@mui/material';
+import { Box, Button } from '@mui/material';
 
-import { type GitHubUser } from '@api/githubApi';
+import {
+    StyledAvatar,
+    StyledCard,
+    StyledCardContent,
+    StyledChip,
+    StyledLogin,
+} from './UserInfo.style';
+
+import { type GitHubUser } from '@api';
 
 interface UserInfoProps {
     user: GitHubUser;
 }
 
 export const UserInfo = ({ user }: UserInfoProps) => (
-    <Card
-        variant="outlined"
-        sx={{
-            flexShrink: 0,
-            borderRadius: 3,
-            borderColor: 'divider',
-            transition: 'all 0.2s ease-in-out',
-            '&:hover': {
-                borderColor: 'primary.main',
-                boxShadow: 2,
-            },
-        }}
-    >
-        <CardContent
-            sx={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: 2,
-                p: 2,
-                '&:last-child': {
-                    pb: 2,
-                },
-            }}
-        >
-            <Avatar
-                src={user.avatar_url}
-                alt={user.login}
-                sx={{
-                    width: 64,
-                    height: 64,
-                    border: '2px solid',
-                    borderColor: 'divider',
-                }}
-            />
+    <StyledCard variant="outlined">
+        <StyledCardContent>
+            <StyledAvatar src={user.avatar_url} alt={user.login} />
 
             <Box sx={{ flexGrow: 1, minWidth: 0 }}>
-                <Typography
-                    variant="subtitle1"
-                    fontWeight={700}
-                    noWrap
-                    sx={{
-                        color: 'text.primary',
-                    }}
-                >
+                <StyledLogin variant="subtitle1" fontWeight={700} noWrap>
                     {user.login}
-                </Typography>
+                </StyledLogin>
 
-                <Chip
+                <StyledChip
                     label={user.type}
                     size="small"
                     variant="outlined"
                     color="primary"
-                    sx={{
-                        mt: 0.75,
-                        fontWeight: 500,
-                        borderRadius: 1.5,
-                    }}
                 />
             </Box>
 
@@ -83,19 +40,12 @@ export const UserInfo = ({ user }: UserInfoProps) => (
                 rel="noopener noreferrer"
                 aria-label={`View ${user.login}'s GitHub profile`}
                 sx={{
-                    borderRadius: 2,
-                    textTransform: 'none',
                     fontWeight: 600,
-                    px: 2,
                     whiteSpace: 'nowrap',
-                    boxShadow: 'none',
-                    '&:hover': {
-                        boxShadow: 1,
-                    },
                 }}
             >
                 View Profile
             </Button>
-        </CardContent>
-    </Card>
+        </StyledCardContent>
+    </StyledCard>
 );

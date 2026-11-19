@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 
 import { useSearchParams } from 'react-router-dom';
 
+import { HomeComponent } from '@components';
 import { useAppDispatch, useAppSelector } from '@store';
 import {
     clearSearchError,
@@ -12,13 +13,11 @@ import {
     selectSearchStatus,
 } from '@store/githubSearch/githubSearchSlice';
 
-import { HomeComponent } from './Home.component';
-
 export const HomeContainer = () => {
-    const [searchParams] = useSearchParams();
+    const [searchParams, setSearchParams] = useSearchParams();
 
     const [searchValue, setSearchValue] = useState(
-        () => searchParams.get('query') ?? '',
+        () => searchParams.get('user') ?? '',
     );
     const hasQuery = searchValue.trim().length > 0;
 
@@ -27,6 +26,13 @@ export const HomeContainer = () => {
     const status = useAppSelector(selectSearchStatus);
     const error = useAppSelector(selectSearchError);
 
+    const handleSearchChange = (value: string) => {
+        setSearchValue(value);
+        setSearchParams(value.trim() ? { user: value.trim() } : {}, {
+            replace: true,
+        });
+    };
+
     const handleSnackbarClose = () => {
         dispatch(clearSearchError());
     };
@@ -34,8 +40,10 @@ export const HomeContainer = () => {
     useEffect(() => {
         const query = searchValue.trim();
 
-        dispatch(clearSearchResults());
-        if (!query) return;
+        if (!query) {
+            dispatch(clearSearchResults());
+            return;
+        }
 
         let abortRequest: (() => void) | undefined;
 
@@ -55,7 +63,7 @@ export const HomeContainer = () => {
     return (
         <HomeComponent
             searchValue={searchValue}
-            onSearchChange={setSearchValue}
+            onSearchChange={handleSearchChange}
             results={results}
             status={status}
             error={error}

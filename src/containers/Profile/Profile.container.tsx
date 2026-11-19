@@ -1,15 +1,15 @@
 import { useEffect, useRef, useState } from 'react';
 
-import { USER_TOKEN_STORAGE_KEY } from '@constant';
+import { ProfileComponent } from '@components';
+import { USER_TOKEN_STORAGE_KEY } from '@constants';
 import { useAppSelector } from '@store';
 
-import { ProfileComponent } from './Profile.component';
-
-import { getSuggestedGitHubUsers, type GitHubUser } from '@api/githubApi';
+import { getSuggestedGitHubUsers, type GitHubUser } from '@api';
 
 const SUGGESTION_BATCH_SIZE = 30;
 const SUGGESTION_DISPLAY_COUNT = 3;
 const PREFETCH_THRESHOLD = 3 * SUGGESTION_DISPLAY_COUNT;
+export const MAX_GITHUB_USER_ID = 200000000;
 
 interface AvailableSuggestions {
     users: GitHubUser[];
@@ -29,8 +29,8 @@ const getAvailableSuggestions = async (
     while (availableUsers.length < requiredCount) {
         const fetchedUsers = await getSuggestedGitHubUsers(
             localStorage.getItem(USER_TOKEN_STORAGE_KEY) || '',
-            nextCursor,
             SUGGESTION_BATCH_SIZE,
+            nextCursor,
             signal,
         );
 
@@ -147,6 +147,9 @@ export const ProfileContainer = () => {
 
     const handleErrorClose = () => setError(null);
 
+    const getRandomCursor = (): number =>
+        Math.floor(Math.random() * MAX_GITHUB_USER_ID);
+
     useEffect(() => {
         if (!user) return;
 
@@ -157,7 +160,7 @@ export const ProfileContainer = () => {
                 const result = await getAvailableSuggestions(
                     SUGGESTION_DISPLAY_COUNT,
                     [],
-                    undefined,
+                    getRandomCursor(),
                     user.id,
                     controller.signal,
                 );
@@ -201,8 +204,8 @@ export const ProfileContainer = () => {
             try {
                 const fetched = await getSuggestedGitHubUsers(
                     localStorage.getItem(USER_TOKEN_STORAGE_KEY) || '',
-                    lastUserId,
                     SUGGESTION_BATCH_SIZE,
+                    lastUserId,
                     controller.signal,
                 );
 

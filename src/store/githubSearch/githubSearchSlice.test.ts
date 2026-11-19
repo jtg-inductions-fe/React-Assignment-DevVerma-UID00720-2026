@@ -6,7 +6,8 @@ import {
     searchGitHubUsers,
 } from './githubSearchSlice';
 import githubSearchReducer from './githubSearchSlice';
-import type { GitHubSearchResponse } from '../../api/githubApi';
+
+import type { GitHubSearchResponse } from '@api';
 
 const initialState: ReturnType<typeof githubSearchReducer> = {
     results: null,

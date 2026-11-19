@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 
 import { UserInfo } from '@components';
 
-import { type GitHubUser } from '@api/githubApi';
+import { type GitHubUser } from '@api';
 import { render, screen } from '@testing-library/react';
 
 const mockUser: GitHubUser = {

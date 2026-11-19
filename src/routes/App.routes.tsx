@@ -7,14 +7,11 @@ export const AppRoutes = () => (
     <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
-        <Route
-            path="/profile"
-            element={
-                <ProtectedRoute>
-                    <ProfilePage />
-                </ProtectedRoute>
-            }
-        />
+
+        <Route element={<ProtectedRoute />}>
+            <Route path="/profile" element={<ProfilePage />} />
+        </Route>
+
         <Route path="*" element={<NotFoundPage />} />
     </Routes>
 );

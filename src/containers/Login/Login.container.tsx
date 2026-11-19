@@ -7,10 +7,9 @@ import {
 
 import { useNavigate } from 'react-router-dom';
 
+import { LoginComponent } from '@components';
 import { useAppDispatch, useAppSelector } from '@store';
 import { clearAuthError, loginUser } from '@store/auth/authSlice';
-
-import { LoginComponent } from './Login.component';
 
 interface LoginFormErrors {
     username: string;
