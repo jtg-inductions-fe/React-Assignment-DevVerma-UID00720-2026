@@ -17,15 +17,16 @@ import {
     Typography,
 } from '@mui/material';
 
-import { StatCard } from '@components';
-
 import { type GitHubUser } from '@api';
+import { StatCard } from '@components';
 
 interface UserProfileProps {
     user: GitHubUser;
 }
 
-export const UserProfile = ({ user }: UserProfileProps) => {
+export const UserProfile = (props: UserProfileProps) => {
+    const { user } = props;
+
     const profileDetails = [
         {
             label: 'Location',

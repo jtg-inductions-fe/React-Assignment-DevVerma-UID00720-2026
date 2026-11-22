@@ -10,9 +10,8 @@ import {
     Typography,
 } from '@mui/material';
 
-import { UserInfo } from '@components';
-
 import { type GitHubUser } from '@api';
+import { UserInfo } from '@components';
 
 interface UserSuggestionsProps {
     suggestions: GitHubUser[];
@@ -30,6 +29,7 @@ export const UserSuggestions = (props: UserSuggestionsProps) => {
             sx={{
                 width: '100%',
                 maxWidth: 850,
+                height: 320,
                 mx: 'auto',
                 borderRadius: 3,
                 p: { xs: 2, sm: 3 },
@@ -98,21 +98,6 @@ export const UserSuggestions = (props: UserSuggestionsProps) => {
                                 </IconButton>
                             </Stack>
                         ))}
-                    </Stack>
-                )}
-
-                {loading && suggestions.length > 0 && (
-                    <Stack
-                        direction="row"
-                        alignItems="center"
-                        justifyContent="center"
-                        spacing={1}
-                    >
-                        <CircularProgress size={16} />
-
-                        <Typography variant="caption" color="text.secondary">
-                            Loading more suggestions...
-                        </Typography>
                     </Stack>
                 )}
             </Stack>

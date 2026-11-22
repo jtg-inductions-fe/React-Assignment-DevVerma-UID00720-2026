@@ -6,17 +6,14 @@
             "@constants": ["constants/index"],
             "@theme": ["theme/index"],
             "@components": ["components/index"],
-            "@components/*": ["components/*"],
             "@store": ["store/index"],
-            "@store/*": ["store/*"],
             "@pages": ["pages/index"],
-            "@pages/*": ["pages/*"],
             "@routes": ["routes/index"],
-            "@routes/*": ["routes/*"],
             "@app": ["App.component"],
             "@providers": ["providers/index"],
             "@api": ["api/index"],
-            "@containers": ["containers/index"]
+            "@containers": ["containers/index"],
+            "@layouts": ["layouts/index"]
         }
     }
 }

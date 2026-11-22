@@ -13,7 +13,6 @@ export const palette: PaletteOptions = {
         main: COLORS.ERROR,
     },
     background: {
-        default: COLORS.BACKGROUND,
         paper: COLORS.BACKGROUND,
     },
 };

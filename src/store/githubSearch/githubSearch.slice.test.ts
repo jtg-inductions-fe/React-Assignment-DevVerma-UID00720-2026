@@ -1,13 +1,13 @@
 import { describe, expect, it } from 'vitest';
 
+import type { GitHubSearchResponse } from '@api';
+
 import {
     clearSearchError,
     clearSearchResults,
     searchGitHubUsers,
-} from './githubSearchSlice';
-import githubSearchReducer from './githubSearchSlice';
-
-import type { GitHubSearchResponse } from '@api';
+} from './githubSearch.slice';
+import githubSearchReducer from './githubSearch.slice';
 
 const initialState: ReturnType<typeof githubSearchReducer> = {
     results: null,

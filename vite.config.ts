@@ -74,8 +74,8 @@ export default defineConfig(({ mode }) => {
             ],
             build: {
                 ...commonConfig.build,
-                sourcemap: 'hidden',
-                minify: 'terser',
+                sourcemap: 'hidden', // Do not expose sourcemaps
+                minify: 'terser', // Terser for minification
                 terserOptions: {
                     compress: {
                         drop_console: true,
@@ -96,7 +96,7 @@ export default defineConfig(({ mode }) => {
             ...testConfig,
             build: {
                 ...commonConfig.build,
-                sourcemap: 'inline',
+                sourcemap: 'inline', // Include inline sourcemaps for easier debugging
             },
             server: {
                 strictPort: true,

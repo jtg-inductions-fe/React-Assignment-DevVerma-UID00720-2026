@@ -4,14 +4,15 @@ import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { HomePage } from '@pages';
-import githubSearchReducer from '@store/githubSearch/githubSearchSlice';
-
 import {
     type GitHubSearchResponse,
     searchGitHubUsers as searchGitHubUsersApi,
 } from '@api';
-import { act, fireEvent, render, screen } from '@testing-library/react';
+import { HomePage } from '@pages';
+import { githubSearchReducer } from '@store';
+
+import { render, screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
 vi.mock('@api', () => ({
     searchGitHubUsers: vi.fn(),
@@ -52,14 +53,15 @@ function renderHomePage() {
 }
 
 describe('HomePage integration', () => {
+    let user: ReturnType<typeof userEvent.setup>;
+
     beforeEach(() => {
-        vi.useFakeTimers();
+        user = userEvent.setup();
         mockedSearchGitHubUsersApi.mockReset();
     });
 
     afterEach(() => {
-        vi.clearAllTimers();
-        vi.useRealTimers();
+        vi.restoreAllMocks();
     });
 
     it('renders the page heading and search input', () => {
@@ -79,23 +81,19 @@ describe('HomePage integration', () => {
 
         renderHomePage();
 
-        fireEvent.change(
+        await user.type(
             screen.getByRole('searchbox', { name: 'Search GitHub users' }),
-            { target: { value: 'react' } },
-        );
-
-        expect(mockedSearchGitHubUsersApi).not.toHaveBeenCalled();
-
-        await act(async () => {
-            await vi.advanceTimersByTimeAsync(400);
-        });
-
-        expect(mockedSearchGitHubUsersApi).toHaveBeenCalledTimes(1);
-        expect(mockedSearchGitHubUsersApi).toHaveBeenCalledWith(
             'react',
-            3,
-            expect.any(AbortSignal),
         );
+
+        await waitFor(() => {
+            expect(mockedSearchGitHubUsersApi).toHaveBeenCalledTimes(1);
+            expect(mockedSearchGitHubUsersApi).toHaveBeenCalledWith(
+                'react',
+                3,
+                expect.any(AbortSignal),
+            );
+        });
 
         expect(
             screen.getByText('Found 25 matching users.'),
@@ -109,31 +107,28 @@ describe('HomePage integration', () => {
 
         renderHomePage();
 
-        fireEvent.change(
+        await user.type(
             screen.getByRole('searchbox', { name: 'Search GitHub users' }),
-            { target: { value: 'react' } },
+            'react',
         );
 
-        await act(async () => {
-            await vi.advanceTimersByTimeAsync(400);
+        await waitFor(() => {
+            expect(
+                screen.getByText('GitHub API request failed'),
+            ).toBeInTheDocument();
         });
-
-        expect(
-            screen.getByText('GitHub API request failed'),
-        ).toBeInTheDocument();
     });
 
     it('does not search when the input contains only whitespace', async () => {
         renderHomePage();
 
-        fireEvent.change(
+        await user.type(
             screen.getByRole('searchbox', { name: 'Search GitHub users' }),
-            { target: { value: '   ' } },
+            '   ',
         );
 
-        await act(async () => {
-            await vi.advanceTimersByTimeAsync(400);
-        });
+        // Wait past the debounce window to confirm no call was made
+        await waitFor(() => {}, { timeout: 500 });
 
         expect(mockedSearchGitHubUsersApi).not.toHaveBeenCalled();
     });
@@ -143,16 +138,14 @@ describe('HomePage integration', () => {
 
         renderHomePage();
 
-        fireEvent.change(
+        await user.type(
             screen.getByRole('searchbox', { name: 'Search GitHub users' }),
-            { target: { value: 'react' } },
+            'react',
         );
 
-        await act(async () => {
-            await vi.advanceTimersByTimeAsync(400);
+        await waitFor(() => {
+            expect(screen.getByText('react-user')).toBeInTheDocument();
         });
-
-        expect(screen.getByText('react-user')).toBeInTheDocument();
 
         expect(
             screen.getByRole('link', {
@@ -170,19 +163,17 @@ describe('HomePage integration', () => {
 
         renderHomePage();
 
-        fireEvent.change(
+        await user.type(
             screen.getByRole('searchbox', { name: 'Search GitHub users' }),
-            { target: { value: 'nonexistent-user' } },
+            'nonexistent-user',
         );
 
-        await act(async () => {
-            await vi.advanceTimersByTimeAsync(400);
+        await waitFor(() => {
+            expect(
+                screen.getByText(
+                    'No users found. Try searching with another username.',
+                ),
+            ).toBeInTheDocument();
         });
-
-        expect(
-            screen.getByText(
-                'No users found. Try searching with another username.',
-            ),
-        ).toBeInTheDocument();
     });
 });

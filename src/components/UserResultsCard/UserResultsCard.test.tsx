@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest';
 
+import { type GitHubUser } from '@api';
 import { UserResultsCard } from '@components';
 
-import { type GitHubUser } from '@api';
 import { render, screen } from '@testing-library/react';
 
 const mockUsers: GitHubUser[] = [

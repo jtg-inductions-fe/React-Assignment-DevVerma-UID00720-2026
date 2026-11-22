@@ -1,9 +1,9 @@
 import type { Components } from '@mui/material/styles';
 
-import InterBold from '@assets/fonts/inter/inter-bold.woff2';
-import InterLight from '@assets/fonts/inter/inter-light.woff2';
-import InterMedium from '@assets/fonts/inter/inter-medium.woff2';
-import InterRegular from '@assets/fonts/inter/inter-regular.woff2';
+import InterBold from '@assets/fonts/inter/Inter-bold.woff2';
+import InterLight from '@assets/fonts/inter/Inter-light.woff2';
+import InterMedium from '@assets/fonts/inter/Inter-medium.woff2';
+import InterRegular from '@assets/fonts/inter/Inter-regular.woff2';
 
 const fontFaceDeclarations = `
     @font-face {

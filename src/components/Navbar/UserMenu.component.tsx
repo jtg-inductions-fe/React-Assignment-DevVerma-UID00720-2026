@@ -10,13 +10,13 @@ import {
     Typography,
 } from '@mui/material';
 
-interface Props {
+interface UserMenuProps {
     user: { avatar_url?: string; login?: string } | null;
     actions: readonly string[];
     onMenuItemClick: (action: string) => void;
 }
 
-export const UserMenu = (props: Props) => {
+export const UserMenu = (props: UserMenuProps) => {
     const { user, actions, onMenuItemClick } = props;
 
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);

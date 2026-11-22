@@ -6,12 +6,23 @@ import type {
 
 import { HTML_FONT_SIZE } from '@constants';
 
+/* Custom px to rem function */
 const typographyUtil: TypographyUtils = {
-    pxToRem: (px: number) => `${px / HTML_FONT_SIZE}rem`,
+    /**
+     * Converts a pixel value to rem units.
+     * @param px - The pixel value to convert.
+     * @returns The equivalent value in rem units as a string.
+     */
+    pxToRem: (px: number) => `${px / HTML_FONT_SIZE}` + 'rem',
 };
 
+/**
+ * Creates a typography block with various styles
+ * @param theme - Theme object to access the breakpoints.
+ * @returns The function returns a TypographyOptions object, which includes various typography settings,
+ */
 const typographyStyle = (theme: Theme): TypographyOptions => ({
-    fontFamily: 'Inter',
+    fontFamily: "'Inter', system-ui, sans-serif",
     htmlFontSize: HTML_FONT_SIZE,
 
     fontWeightLight: 300,

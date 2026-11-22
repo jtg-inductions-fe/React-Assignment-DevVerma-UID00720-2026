@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest';
 
+import { type GitHubUser } from '@api';
 import { UserInfo } from '@components';
 
-import { type GitHubUser } from '@api';
 import { render, screen } from '@testing-library/react';
 
 const mockUser: GitHubUser = {
@@ -48,5 +48,14 @@ describe('UserInfo', () => {
 
         expect(profileLink).toHaveAttribute('target', '_blank');
         expect(profileLink).toHaveAttribute('rel', 'noopener noreferrer');
+    });
+
+    it('renders the user avatar', () => {
+        render(<UserInfo user={mockUser} />);
+
+        const avatar = screen.getByRole('img', { name: 'react-user' });
+
+        expect(avatar).toBeInTheDocument();
+        expect(avatar).toHaveAttribute('src', mockUser.avatar_url);
     });
 });

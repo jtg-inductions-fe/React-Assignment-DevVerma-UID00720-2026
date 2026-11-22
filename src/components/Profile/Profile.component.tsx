@@ -1,10 +1,9 @@
-import { Alert, Container, Snackbar, Stack } from '@mui/material';
-
-import { UserProfile, UserSuggestions } from '@components';
+import { Stack } from '@mui/material';
 
 import { type GitHubUser } from '@api';
+import { AlertSnackbar, UserProfile, UserSuggestions } from '@components';
 
-interface Props {
+interface ProfileProps {
     user: GitHubUser;
     suggestions: GitHubUser[];
     loading: boolean;
@@ -14,17 +13,19 @@ interface Props {
     onErrorClose: () => void;
 }
 
-export const ProfileComponent = ({
-    user,
-    suggestions,
-    loading,
-    error,
-    onRefresh,
-    onRemove,
-    onErrorClose,
-}: Props) => (
-    <Container maxWidth="lg" sx={{ py: { xs: 4, sm: 6 } }}>
-        <Stack spacing={4} sx={{ maxWidth: 'md', mx: 'auto' }}>
+export const ProfileComponent = (props: ProfileProps) => {
+    const {
+        user,
+        suggestions,
+        loading,
+        error,
+        onRefresh,
+        onRemove,
+        onErrorClose,
+    } = props;
+
+    return (
+        <Stack spacing={4} maxWidth="md" sx={{ mx: 'auto', py: 5 }}>
             <UserProfile user={user} />
 
             <UserSuggestions
@@ -33,21 +34,12 @@ export const ProfileComponent = ({
                 onRefresh={onRefresh}
                 onRemove={onRemove}
             />
-        </Stack>
 
-        <Snackbar
-            open={Boolean(error)}
-            autoHideDuration={6000}
-            onClose={onErrorClose}
-            anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-        >
-            <Alert
-                severity="error"
+            <AlertSnackbar
+                open={Boolean(error)}
+                message={error}
                 onClose={onErrorClose}
-                sx={{ width: '100%' }}
-            >
-                {error}
-            </Alert>
-        </Snackbar>
-    </Container>
-);
+            />
+        </Stack>
+    );
+};

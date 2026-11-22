@@ -11,24 +11,30 @@ import { Link as RouterLink } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
 import { UserMenu } from '@components';
-import { logoutUser, useAppDispatch, useAppSelector } from '@store';
+import { ROUTES } from '@constants';
+import {
+    logoutUser,
+    selectAuthUser,
+    useAppDispatch,
+    useAppSelector,
+} from '@store';
 
 export const Navbar = () => {
     const NAVBAR_ACTIONS = ['Profile', 'Logout'] as const;
 
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
-    const user = useAppSelector((state) => state.auth.user);
+    const user = useAppSelector(selectAuthUser);
     const isLoggedIn = Boolean(user);
 
     const handleMenuItemClick = (action: string) => {
         switch (action) {
             case 'Profile':
-                void navigate('/profile');
+                void navigate(ROUTES.PROFILE);
                 break;
             case 'Logout':
                 void dispatch(logoutUser());
-                void navigate('/');
+                void navigate(ROUTES.HOME);
                 break;
         }
     };
@@ -44,7 +50,7 @@ export const Navbar = () => {
                 <Toolbar component="nav" disableGutters sx={{ gap: 2 }}>
                     <Typography
                         component={RouterLink}
-                        to="/"
+                        to={ROUTES.HOME}
                         variant="h3"
                         color="primary.main"
                         noWrap
@@ -62,7 +68,7 @@ export const Navbar = () => {
                         ) : (
                             <Button
                                 component={RouterLink}
-                                to="/login"
+                                to={ROUTES.LOGIN}
                                 variant="contained"
                             >
                                 Login

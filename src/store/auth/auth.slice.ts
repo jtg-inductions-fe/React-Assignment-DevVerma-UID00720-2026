@@ -1,8 +1,9 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
-import { USER_INFO_STORAGE_KEY, USER_TOKEN_STORAGE_KEY } from '@constants';
-
 import { getAuthenticatedGitHubUser, type GitHubUser } from '@api';
+import type { RootState } from '@store';
+
+import { clearSession, getStoredSession, saveSession } from './auth.util';
 
 interface LoginCredentials {
     username: string;
@@ -11,46 +12,16 @@ interface LoginCredentials {
 
 interface AuthState {
     user: GitHubUser | null;
+    token: string | null;
     status: 'idle' | 'loading' | 'succeeded' | 'failed';
     error: string | null;
 }
 
-const getStoredUser = (): GitHubUser | null => {
-    try {
-        const storedUser = localStorage.getItem(USER_INFO_STORAGE_KEY);
-        const storedToken = localStorage.getItem(USER_TOKEN_STORAGE_KEY);
-
-        if (!storedUser || !storedToken) {
-            return null;
-        }
-
-        const parsedUser: unknown = JSON.parse(storedUser);
-
-        if (
-            typeof parsedUser !== 'object' ||
-            parsedUser === null ||
-            !('id' in parsedUser) ||
-            typeof parsedUser.id !== 'number' ||
-            !('login' in parsedUser) ||
-            typeof parsedUser.login !== 'string' ||
-            !('avatar_url' in parsedUser) ||
-            typeof parsedUser.avatar_url !== 'string' ||
-            !('html_url' in parsedUser) ||
-            typeof parsedUser.html_url !== 'string' ||
-            !('type' in parsedUser) ||
-            typeof parsedUser.type !== 'string'
-        ) {
-            return null;
-        }
-
-        return parsedUser as GitHubUser;
-    } catch {
-        return null;
-    }
-};
+const storedSession = getStoredSession();
 
 const initialState: AuthState = {
-    user: getStoredUser(),
+    user: storedSession?.user ?? null,
+    token: storedSession?.token ?? null,
     status: 'idle',
     error: null,
 };
@@ -68,10 +39,6 @@ export const loginUser = createAsyncThunk<
                 'The entered username does not match the GitHub account associated with this token.',
             );
         }
-
-        localStorage.setItem(USER_INFO_STORAGE_KEY, JSON.stringify(user));
-
-        localStorage.setItem(USER_TOKEN_STORAGE_KEY, token);
 
         return user;
     } catch (error) {
@@ -96,10 +63,10 @@ const authSlice = createSlice({
         },
         logoutUser: (state) => {
             state.user = null;
+            state.token = null;
             state.status = 'idle';
             state.error = null;
-            localStorage.removeItem(USER_INFO_STORAGE_KEY);
-            localStorage.removeItem(USER_TOKEN_STORAGE_KEY);
+            clearSession();
         },
     },
     extraReducers: (builder) => {
@@ -111,7 +78,9 @@ const authSlice = createSlice({
             .addCase(loginUser.fulfilled, (state, action) => {
                 state.status = 'succeeded';
                 state.user = action.payload;
+                state.token = action.meta.arg.token;
                 state.error = null;
+                saveSession(action.payload, action.meta.arg.token);
             })
             .addCase(loginUser.rejected, (state, action) => {
                 state.status = 'failed';
@@ -124,5 +93,17 @@ const authSlice = createSlice({
 });
 
 export const { clearAuthError, logoutUser } = authSlice.actions;
+
+export const selectAuthUser = (state: RootState): GitHubUser | null =>
+    state.auth.user;
+
+export const selectAuthToken = (state: RootState): string | null =>
+    state.auth.token;
+
+export const selectAuthStatus = (state: RootState): AuthState['status'] =>
+    state.auth.status;
+
+export const selectAuthError = (state: RootState): string | null =>
+    state.auth.error;
 
 export default authSlice.reducer;

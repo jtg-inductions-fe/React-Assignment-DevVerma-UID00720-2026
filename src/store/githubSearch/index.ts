@@ -5,4 +5,5 @@ export {
     selectSearchResults,
     selectSearchStatus,
     selectSearchError,
-} from './githubSearchSlice';
+    default as githubSearchReducer,
+} from './githubSearch.slice';

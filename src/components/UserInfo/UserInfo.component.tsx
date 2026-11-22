@@ -1,5 +1,7 @@
 import { Box, Button } from '@mui/material';
 
+import { type GitHubUser } from '@api';
+
 import {
     StyledAvatar,
     StyledCard,
@@ -8,44 +10,46 @@ import {
     StyledLogin,
 } from './UserInfo.style';
 
-import { type GitHubUser } from '@api';
-
 interface UserInfoProps {
     user: GitHubUser;
 }
 
-export const UserInfo = ({ user }: UserInfoProps) => (
-    <StyledCard variant="outlined">
-        <StyledCardContent>
-            <StyledAvatar src={user.avatar_url} alt={user.login} />
+export const UserInfo = (props: UserInfoProps) => {
+    const { user } = props;
 
-            <Box sx={{ flexGrow: 1, minWidth: 0 }}>
-                <StyledLogin variant="subtitle1" fontWeight={700} noWrap>
-                    {user.login}
-                </StyledLogin>
+    return (
+        <StyledCard variant="outlined">
+            <StyledCardContent>
+                <StyledAvatar src={user.avatar_url} alt={user.login} />
 
-                <StyledChip
-                    label={user.type}
+                <Box sx={{ flexGrow: 1, minWidth: 0 }}>
+                    <StyledLogin variant="subtitle1" fontWeight={700} noWrap>
+                        {user.login}
+                    </StyledLogin>
+
+                    <StyledChip
+                        label={user.type}
+                        size="small"
+                        variant="outlined"
+                        color="primary"
+                    />
+                </Box>
+
+                <Button
+                    variant="contained"
                     size="small"
-                    variant="outlined"
-                    color="primary"
-                />
-            </Box>
-
-            <Button
-                variant="contained"
-                size="small"
-                href={user.html_url}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={`View ${user.login}'s GitHub profile`}
-                sx={{
-                    fontWeight: 600,
-                    whiteSpace: 'nowrap',
-                }}
-            >
-                View Profile
-            </Button>
-        </StyledCardContent>
-    </StyledCard>
-);
+                    href={user.html_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`View ${user.login}'s GitHub profile`}
+                    sx={{
+                        fontWeight: 600,
+                        whiteSpace: 'nowrap',
+                    }}
+                >
+                    View Profile
+                </Button>
+            </StyledCardContent>
+        </StyledCard>
+    );
+};

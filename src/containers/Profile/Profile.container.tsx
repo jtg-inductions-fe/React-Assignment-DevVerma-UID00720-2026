@@ -1,10 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 
-import { ProfileComponent } from '@components';
-import { USER_TOKEN_STORAGE_KEY } from '@constants';
-import { useAppSelector } from '@store';
-
 import { getSuggestedGitHubUsers, type GitHubUser } from '@api';
+import { ProfileComponent } from '@components';
+import { selectAuthToken, selectAuthUser, useAppSelector } from '@store';
 
 const SUGGESTION_BATCH_SIZE = 30;
 const SUGGESTION_DISPLAY_COUNT = 3;
@@ -21,6 +19,7 @@ const getAvailableSuggestions = async (
     currentQueue: GitHubUser[],
     cursor: number | undefined,
     excludedUserId: number,
+    token: string,
     signal?: AbortSignal,
 ): Promise<AvailableSuggestions> => {
     const availableUsers = [...currentQueue];
@@ -28,7 +27,7 @@ const getAvailableSuggestions = async (
 
     while (availableUsers.length < requiredCount) {
         const fetchedUsers = await getSuggestedGitHubUsers(
-            localStorage.getItem(USER_TOKEN_STORAGE_KEY) || '',
+            token,
             SUGGESTION_BATCH_SIZE,
             nextCursor,
             signal,
@@ -59,8 +58,10 @@ export const ProfileContainer = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const prefetchingRef = useRef(false);
+    const abortControllerRef = useRef<AbortController | null>(null);
 
-    const user = useAppSelector((state) => state.auth.user);
+    const user = useAppSelector(selectAuthUser);
+    const token = useAppSelector(selectAuthToken) || '';
 
     const handleRefresh = async () => {
         if (!user) return;
@@ -73,6 +74,9 @@ export const ProfileContainer = () => {
         }
 
         setLoading(true);
+        const controller = new AbortController();
+        abortControllerRef.current = controller;
+        setSuggestions([]);
 
         try {
             const result = await getAvailableSuggestions(
@@ -80,19 +84,22 @@ export const ProfileContainer = () => {
                 suggestionQueue,
                 lastUserId,
                 user.id,
+                token,
+                controller.signal,
             );
 
             setSuggestions(result.users.slice(0, SUGGESTION_DISPLAY_COUNT));
             setSuggestionQueue(result.users.slice(SUGGESTION_DISPLAY_COUNT));
             setLastUserId(result.cursor);
         } catch (err) {
+            if (controller.signal.aborted) return;
             setError(
                 err instanceof Error
                     ? err.message
                     : 'Unable to refresh suggestions.',
             );
         } finally {
-            setLoading(false);
+            if (!controller.signal.aborted) setLoading(false);
         }
     };
 
@@ -111,6 +118,8 @@ export const ProfileContainer = () => {
         }
 
         setLoading(true);
+        const controller = new AbortController();
+        abortControllerRef.current = controller;
 
         try {
             const result = await getAvailableSuggestions(
@@ -118,6 +127,8 @@ export const ProfileContainer = () => {
                 suggestionQueue,
                 lastUserId,
                 user.id,
+                token,
+                controller.signal,
             );
 
             const nextUser = result.users[0];
@@ -135,13 +146,14 @@ export const ProfileContainer = () => {
             setSuggestionQueue(result.users.slice(1));
             setLastUserId(result.cursor);
         } catch (err) {
+            if (controller.signal.aborted) return;
             setError(
                 err instanceof Error
                     ? err.message
                     : 'Unable to replace suggestion.',
             );
         } finally {
-            setLoading(false);
+            if (!controller.signal.aborted) setLoading(false);
         }
     };
 
@@ -162,6 +174,7 @@ export const ProfileContainer = () => {
                     [],
                     getRandomCursor(),
                     user.id,
+                    token,
                     controller.signal,
                 );
 
@@ -190,7 +203,7 @@ export const ProfileContainer = () => {
         return () => {
             controller.abort();
         };
-    }, [user]);
+    }, [user, token]);
 
     useEffect(() => {
         if (!user || loading) return;
@@ -203,7 +216,7 @@ export const ProfileContainer = () => {
         const prefetch = async () => {
             try {
                 const fetched = await getSuggestedGitHubUsers(
-                    localStorage.getItem(USER_TOKEN_STORAGE_KEY) || '',
+                    token,
                     SUGGESTION_BATCH_SIZE,
                     lastUserId,
                     controller.signal,
@@ -226,7 +239,14 @@ export const ProfileContainer = () => {
         void prefetch();
 
         return () => controller.abort();
-    }, [suggestionQueue.length, user, loading, lastUserId]);
+    }, [suggestionQueue.length, user, loading, lastUserId, token]);
+
+    useEffect(
+        () => () => {
+            abortControllerRef.current?.abort();
+        },
+        [],
+    );
 
     if (!user) return null;
 

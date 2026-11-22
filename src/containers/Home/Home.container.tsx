@@ -11,7 +11,7 @@ import {
     selectSearchError,
     selectSearchResults,
     selectSearchStatus,
-} from '@store/githubSearch/githubSearchSlice';
+} from '@store';
 
 export const HomeContainer = () => {
     const [searchParams, setSearchParams] = useSearchParams();

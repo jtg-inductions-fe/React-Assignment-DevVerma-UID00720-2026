@@ -4,12 +4,11 @@ import {
     createSlice,
 } from '@reduxjs/toolkit';
 
-import { RootState } from '@store';
-
 import {
     type GitHubSearchResponse,
     searchGitHubUsers as searchGitHubUsersApi,
 } from '@api';
+import { RootState } from '@store';
 
 interface GitHubSearchState {
     results: GitHubSearchResponse | null;

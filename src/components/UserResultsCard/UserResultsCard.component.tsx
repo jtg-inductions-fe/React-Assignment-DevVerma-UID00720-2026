@@ -1,8 +1,7 @@
 import { Box, Card, CardContent, Typography } from '@mui/material';
 
-import { UserInfo } from '@components';
-
 import { type GitHubUser } from '@api';
+import { UserInfo } from '@components';
 
 interface UserResultsCardProps {
     users: GitHubUser[];
