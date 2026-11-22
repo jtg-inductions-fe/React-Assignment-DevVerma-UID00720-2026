@@ -3664,11 +3664,6 @@ __metadata:
     vite-plugin-image-optimizer: "npm:1.1.8"
     vite-tsconfig-paths: "npm:5.1.4"
     vitest: "npm:3.2.7"
-  dependenciesMeta:
-    esbuild:
-      built: true
-    sharp:
-      built: true
   languageName: unknown
   linkType: soft
 
