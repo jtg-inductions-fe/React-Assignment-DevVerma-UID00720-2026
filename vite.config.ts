@@ -1,12 +1,12 @@
-import type { UserConfig } from 'vite';
-import { defineConfig, loadEnv } from 'vite';
+import { loadEnv } from 'vite';
 import { ViteImageOptimizer } from 'vite-plugin-image-optimizer';
 import tsconfigPaths from 'vite-tsconfig-paths';
+import { defineConfig } from 'vitest/config';
 
 import react from '@vitejs/plugin-react';
 
 /* Common Config for both PROD and DEV mode */
-const commonConfig: UserConfig = {
+const commonConfig = {
     plugins: [react(), tsconfigPaths()],
     /* Customizing build folder structure */
     build: {
@@ -18,12 +18,14 @@ const commonConfig: UserConfig = {
         rollupOptions: {
             output: {
                 entryFileNames: 'js/[name]-[hash].js',
-                assetFileNames: ({ name }) => {
+                assetFileNames: ({ name }: { name?: string }) => {
                     if (/\.(webp|jpe?g|png)$/.test(name ?? '')) {
                         return 'assets/images/[name]-[hash][extname]';
                     }
-                    if (/\.(woff2|ttf)$/.test(name ?? ''))
+
+                    if (/\.(woff2|ttf)$/.test(name ?? '')) {
                         return 'assets/fonts/[name]-[hash][extname]';
+                    }
                     return '[name]-[hash][extname]';
                 },
             },
@@ -31,18 +33,27 @@ const commonConfig: UserConfig = {
     },
 };
 
-export default defineConfig(({ mode }): UserConfig => {
+export default defineConfig(({ mode }) => {
     /* Load environment variables based on the mode */
     const env = loadEnv(mode, process.cwd(), '');
     const PORT = parseInt(env.PORT) || undefined;
+
+    /* Vitest configuration */
+    const testConfig = {
+        test: {
+            environment: 'jsdom',
+            setupFiles: './src/test/setup.ts',
+            clearMocks: true,
+        },
+    };
 
     /* Production-specific configuration */
     if (mode === 'production') {
         return {
             ...commonConfig,
+            ...testConfig,
             plugins: [
-                commonConfig.plugins,
-                /* Image optimization for production build */
+                ...(commonConfig.plugins ?? []),
                 ViteImageOptimizer({
                     test: /\.(jpe?g|webp|png)$/i,
                     includePublic: false,
@@ -76,10 +87,13 @@ export default defineConfig(({ mode }): UserConfig => {
                 port: PORT,
             },
         };
-        /* Development-specific configuration */
-    } else if (mode === 'development') {
+    }
+
+    /* Development-specific configuration */
+    if (mode === 'development') {
         return {
             ...commonConfig,
+            ...testConfig,
             build: {
                 ...commonConfig.build,
                 sourcemap: 'inline', // Include inline sourcemaps for easier debugging
@@ -89,5 +103,10 @@ export default defineConfig(({ mode }): UserConfig => {
                 port: PORT,
             },
         };
-    } else return commonConfig;
+    }
+
+    return {
+        ...commonConfig,
+        ...testConfig,
+    };
 });

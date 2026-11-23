@@ -15,5 +15,5 @@ else
   fi
 fi
 
-# Run pre-commit script
-npm run pre-commit
+# Run lint-staged on staged files
+yarn lint-staged

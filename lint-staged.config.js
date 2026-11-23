@@ -1,5 +1,6 @@
-/* This configuration applies Prettier formatting and ESLint linting to all staged `.ts` and `.tsx` files */
+// 'tsc --noEmit' type-checks ENTIRE project (uses tsconfig.json)
 export default {
-    'src/**/*.{ts,tsx}': `eslint .`,
-    '*': `prettier --write ./`,
+    '*.{js,jsx}': ['eslint --fix', 'prettier --write'],
+    '*.{ts,tsx}': ['eslint --fix', 'prettier --write', () => 'tsc --noEmit'],
+    '*.{json,css,scss,md,yml,yaml,html}': ['prettier --write'],
 };
