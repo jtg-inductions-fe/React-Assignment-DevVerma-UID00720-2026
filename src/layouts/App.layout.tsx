@@ -5,24 +5,29 @@ import { Box, Container } from '@mui/material';
 import { Outlet } from 'react-router-dom';
 
 import { Navbar } from '@containers';
-import { getStoredSession, useAppDispatch, validateSession } from '@store';
+import {
+    selectAuthToken,
+    selectAuthUser,
+    useAppDispatch,
+    useAppSelector,
+    validateSession,
+} from '@store';
 
 export const AppLayout = () => {
     const dispatch = useAppDispatch();
 
-    const storedSession = getStoredSession();
-    const user = storedSession?.user ?? null;
-    const token = storedSession?.token ?? null;
+    const userName = useAppSelector(selectAuthUser)?.login ?? null;
+    const token = useAppSelector(selectAuthToken) ?? null;
 
     useEffect(() => {
-        if (!user || !token) return;
+        if (!userName || !token) return;
         void dispatch(
             validateSession({
-                username: user.login.trim(),
+                username: userName.trim(),
                 token: token.trim(),
             }),
         );
-    }, [dispatch, user, token]);
+    }, [dispatch, userName, token]);
 
     return (
         <Box>
