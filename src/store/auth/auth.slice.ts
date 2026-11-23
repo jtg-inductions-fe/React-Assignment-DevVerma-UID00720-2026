@@ -54,6 +54,28 @@ export const loginUser = createAsyncThunk<
     }
 });
 
+export const validateSession = createAsyncThunk<
+    GitHubUser,
+    LoginCredentials,
+    { rejectValue: string }
+>(
+    'auth/validateSession',
+    async ({ username, token }, { rejectWithValue, signal }) => {
+        try {
+            const user = await getAuthenticatedGitHubUser(token, signal);
+
+            if (user.login.toLowerCase() !== username.trim().toLowerCase()) {
+                return rejectWithValue('Invalid token, please login again');
+            }
+
+            return user;
+        } catch (error) {
+            if (signal.aborted) throw error;
+            return rejectWithValue('Session invalid.');
+        }
+    },
+);
+
 const authSlice = createSlice({
     name: 'auth',
     initialState,
@@ -88,6 +110,23 @@ const authSlice = createSlice({
                     action.payload ??
                     action.error.message ??
                     'Something went wrong during login.';
+            })
+
+            .addCase(validateSession.pending, (state) => {
+                state.status = 'loading';
+            })
+            .addCase(validateSession.fulfilled, (state, action) => {
+                state.status = 'succeeded';
+                state.user = action.payload;
+                state.token = action.meta.arg.token;
+                state.error = null;
+                saveSession(action.payload, action.meta.arg.token);
+            })
+            .addCase(validateSession.rejected, (state) => {
+                state.status = 'idle';
+                state.user = null;
+                state.token = null;
+                clearSession();
             });
     },
 });
